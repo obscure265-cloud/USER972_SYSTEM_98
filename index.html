@@ -1,0 +1,2645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="obscure" content="user_972" />
+    <link rel="icon" type="image/x-icon" href="https://files.catbox.moe/86133u.ico">
+    <title>SYSTEM_98</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --win98-gray: #c0c0c0;
+            --win98-dark-gray: #808080;
+            --win98-light-gray: #dfdfdf;
+            --win98-white: #ffffff;
+            --win98-black: #000000;
+            --win98-blue: #000080;
+            --win98-title-blue: #000080;
+            --win98-highlight: #dfdfdf;
+            --win98-shadow: #808080;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000 0%, #272727 100%);
+            font-family: 'MS Sans Serif', 'Tahoma', monospace;
+            font-size: 11px;
+            overflow: hidden;
+            cursor: default;
+        }
+
+        /* Boot splash screen */
+        #boot-splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--win98-black);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .boot-logo {
+            color: var(--win98-white);
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .boot-logo-sub {
+            color: var(--win98-white);
+            font-size: 14px;
+            margin-bottom: 60px;
+            letter-spacing: 2px;
+        }
+
+        .boot-progress-container {
+            width: 300px;
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            background-color: var(--win98-gray);
+            padding: 3px;
+            margin-bottom: 15px;
+        }
+
+        .boot-progress-bar {
+            height: 16px;
+            width: 0%;
+            background: linear-gradient(90deg, #000080, #1084d7);
+            border: 1px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            transition: width 0.1s linear;
+        }
+
+        .boot-progress-text {
+            color: var(--win98-white);
+            text-align: center;
+            margin-top: 20px;
+            font-size: 11px;
+            min-height: 14px;
+        }
+
+        /* Windows 98 Desktop */
+        #desktop {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000080 0%, #1084d7 100%);
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 28px;
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border-top: 2px solid;
+            border-color: var(--win98-white) var(--win98-shadow) var(--win98-shadow) var(--win98-white);
+            display: flex;
+            align-items: center;
+            padding: 2px;
+            gap: 4px;
+            z-index: 1000;
+        }
+
+        .start-button {
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            padding: 2px 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .start-button:active {
+            border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+        }
+
+        .taskbar-clock {
+            margin-left: auto;
+            padding: 2px 6px;
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border: 2px solid;
+            border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+            font-size: 11px;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        /* Audio Control Panel Styles */
+        .audio-control-panel {
+            position: fixed;
+            bottom: 28px;
+            left: 10px;
+            width: 200px;
+            background: var(--win98-gray);
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            box-shadow: 1px 1px 0 var(--win98-white), -1px -1px 0 var(--win98-dark-gray);
+            z-index: 1500;
+            display: none;
+            padding: 8px;
+        }
+
+        .audio-control-header {
+            background: linear-gradient(90deg, #000080, #1084d7);
+            color: white;
+            padding: 4px 6px;
+            font-weight: bold;
+            margin: -8px -8px 8px -8px;
+        }
+
+        .audio-control-group {
+            margin-bottom: 10px;
+        }
+
+        .audio-control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+
+        .audio-toggle {
+            width: 30px;
+            height: 14px;
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .audio-toggle.active {
+            background: linear-gradient(180deg, #00FF00, #00CC00);
+        }
+
+        .audio-toggle-knob {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            width: 12px;
+            height: 10px;
+            background: linear-gradient(180deg, var(--win98-white), var(--win98-light-gray));
+            border: 1px solid var(--win98-shadow);
+            transition: left 0.1s;
+        }
+
+        .audio-toggle.active .audio-toggle-knob {
+            left: 15px;
+        }
+
+        .audio-slider {
+            width: 100%;
+            height: 12px;
+            -webkit-appearance: none;
+            background: var(--win98-gray);
+            border: 1px inset;
+        }
+
+        .audio-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 16px;
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            cursor: pointer;
+        }
+
+        .audio-slider::-webkit-slider-thumb:active {
+            border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+        }
+
+        .audio-button {
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            padding: 3px 8px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        .audio-button:active {
+            border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+        }
+
+        .taskbar-audio-icon {
+            margin-left: 8px;
+            padding: 2px 6px;
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 20px;
+        }
+
+        .taskbar-audio-icon:active {
+            border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+        }
+
+        /* Start Menu */
+        .start-menu {
+            position: fixed;
+            bottom: 28px;
+            left: 0;
+            width: 250px;
+            background: var(--win98-gray);
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            box-shadow: 1px 1px 0 var(--win98-white), -1px -1px 0 var(--win98-dark-gray);
+            z-index: 1500;
+            display: none;
+        }
+
+        .start-menu-header {
+            background: linear-gradient(90deg, #000080, #1084d7);
+            color: white;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-photo {
+            width: 40px;
+            height: 40px;
+            background-color: var(--win98-white);
+            border: 1px solid var(--win98-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .user-photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .user-status {
+            font-size: 9px;
+            opacity: 0.8;
+        }
+
+        .start-menu-content {
+            padding: 8px 0;
+        }
+
+        .start-menu-item {
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .start-menu-item:hover {
+            background-color: var(--win98-blue);
+            color: white;
+        }
+
+        .start-menu-item-icon {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .start-menu-item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .start-menu-divider {
+            height: 2px;
+            background: linear-gradient(90deg, var(--win98-light-gray), var(--win98-shadow));
+            margin: 4px 0;
+        }
+
+        .start-menu-footer {
+            background: var(--win98-light-gray);
+            padding: 4px 8px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--win98-shadow);
+        }
+
+        .desktop-icon {
+            position: absolute;
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .desktop-icon-image {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+            overflow: hidden;
+        }
+
+        .desktop-icon-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .desktop-icon-label {
+            font-size: 10px;
+            color: white;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            max-width: 70px;
+            word-wrap: break-word;
+        }
+
+        .desktop-icon:hover .desktop-icon-label {
+            background-color: var(--win98-blue);
+            color: white;
+        }
+
+        /* Windows */
+        .window {
+            position: absolute;
+            background-color: var(--win98-gray);
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            box-shadow: 1px 1px 0 var(--win98-white), -1px -1px 0 var(--win98-dark-gray);
+            min-width: 300px;
+            z-index: 100;
+            display: none;
+        }
+
+        .window.active {
+            z-index: 500;
+        }
+
+        .title-bar {
+            background: linear-gradient(90deg, #000080, #1084d7);
+            color: white;
+            padding: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            user-select: none;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .title-bar-text {
+            flex: 1;
+            padding: 2px 3px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .title-bar-img {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+        }
+
+        .title-bar-controls {
+            display: flex;
+            gap: 2px;
+        }
+
+        .title-bar-button {
+            width: 16px;
+            height: 14px;
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        .title-bar-button:active {
+            border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+        }
+
+        .window-content {
+            padding: 4px;
+            background-color: var(--win98-gray);
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        .window-content::-webkit-scrollbar {
+            width: 16px;
+        }
+
+        .window-content::-webkit-scrollbar-track {
+            background: var(--win98-gray);
+            border: 1px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+        }
+
+        .window-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--win98-light-gray), var(--win98-gray));
+            border: 1px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+        }
+
+        /* File list */
+        .file-list {
+            list-style: none;
+        }
+
+        .file-item {
+            padding: 2px 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin: 1px 0;
+        }
+
+        .file-item:hover {
+            background-color: var(--win98-blue);
+            color: white;
+        }
+
+        .file-item-icon {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .file-item-name {
+            flex: 1;
+            font-size: 11px;
+        }
+
+        /* Folder structure */
+        .folder-path {
+            background-color: var(--win98-light-gray);
+            border: 1px inset;
+            padding: 2px 4px;
+            margin: 2px 0;
+            font-size: 10px;
+            color: #333;
+        }
+
+        /* Document Grid View */
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            padding: 8px;
+        }
+
+        .document-grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            padding: 6px;
+        }
+
+        .document-grid-icon {
+            width: 64px;
+            height: 80px;
+            background: linear-gradient(135deg, #c0c0c0 0%, #dfdfdf 100%);
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .document-grid-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .document-grid-item:hover .document-grid-icon {
+            background: linear-gradient(135deg, var(--win98-blue) 0%, #1084d7 100%);
+        }
+
+        .document-grid-label {
+            font-size: 9px;
+            text-align: center;
+            max-width: 100px;
+            word-break: break-word;
+            color: black;
+        }
+
+        .document-grid-item:hover .document-grid-label {
+            background-color: var(--win98-blue);
+            color: white;
+            padding: 1px;
+        }
+
+        /* Text viewer */
+        .text-viewer {
+            background-color: var(--win98-white);
+            border: 1px inset;
+            padding: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #000;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .text-viewer::-webkit-scrollbar {
+            width: 16px;
+        }
+
+        .text-viewer::-webkit-scrollbar-track {
+            background: var(--win98-gray);
+        }
+
+        .text-viewer::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--win98-light-gray), var(--win98-gray));
+            border: 1px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 4px;
+            margin: 4px 0;
+        }
+
+        .image-frame {
+            border: 1px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: rgba(192, 192, 192, 0.4);
+            text-align: center;
+            padding: 4px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .image-frame:hover {
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .window {
+                min-width: 90vw;
+                max-width: 95vw;
+            }
+
+            .window-content {
+                max-height: 60vh;
+            }
+
+            .desktop-icon {
+                width: 60px;
+            }
+
+            .desktop-icon-image {
+                width: 36px;
+                height: 36px;
+            }
+
+            .desktop-icon-label {
+                font-size: 9px;
+            }
+
+            .image-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+
+            .document-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .window {
+                min-width: 98vw;
+            }
+
+            .boot-progress-container {
+                width: 200px;
+            }
+
+            .window-content {
+                max-height: 50vh;
+            }
+
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .document-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .menu-divider {
+            height: 2px;
+            background: linear-gradient(90deg, var(--win98-light-gray), var(--win98-shadow));
+            margin: 2px 0;
+        }
+
+        .button {
+            background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            padding: 3px 8px;
+            cursor: pointer;
+            font-size: 11px;
+            margin: 2px;
+        }
+
+        .button:active {
+            border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+        }
+
+        .section-header {
+            font-weight: bold;
+            color: var(--win98-blue);
+            margin: 4px 0 2px 0;
+            padding: 2px;
+            border-bottom: 1px solid var(--win98-shadow);
+        }
+
+        .hidden-files-warning {
+            background-color: #ffffcc;
+            border: 1px solid #999;
+            padding: 4px;
+            margin: 4px 0;
+            font-size: 10px;
+            color: #333;
+        }
+
+        /* Documents folder view */
+        .documents-folder-tab {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .documents-folder-tab.active {
+            display: block;
+        }
+
+        .documents-folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+            padding: 12px;
+            background: var(--win98-gray);
+        }
+
+        .documents-folder-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            padding: 8px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .documents-folder-item:hover {
+            background-color: rgba(0, 0, 128, 0.2);
+            border: 2px solid var(--win98-blue);
+        }
+
+        .documents-folder-icon {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #c0c0c0 0%, #dfdfdf 100%);
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+        }
+
+        .documents-folder-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .documents-folder-label {
+            font-size: 9px;
+            text-align: center;
+            max-width: 130px;
+            word-break: break-word;
+            color: black;
+            line-height: 1.2;
+        }
+
+        .documents-detail-panel {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+        }
+
+        .documents-detail-images {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            flex: 0 0 300px;
+        }
+
+        .documents-detail-image {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border: 1px solid #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7px;
+            color: rgba(192, 192, 192, 0.4);
+            text-align: center;
+            padding: 2px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .documents-detail-image:hover {
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .documents-detail-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .documents-detail-title {
+            font-weight: bold;
+            color: var(--win98-blue);
+            border-bottom: 1px solid var(--win98-shadow);
+            padding-bottom: 4px;
+        }
+
+        .documents-detail-description {
+            font-size: 10px;
+            color: #333;
+            overflow-y: auto;
+            flex: 1;
+            max-height: 200px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.3;
+        }
+
+        /* Error Dialog */
+        .error-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--win98-gray);
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            box-shadow: 2px 2px 0 var(--win98-white), -2px -2px 0 var(--win98-dark-gray);
+            width: 350px;
+            z-index: 2000;
+            display: none;
+        }
+
+        .error-dialog-title {
+            background: linear-gradient(90deg, #000080, #1084d7);
+            color: white;
+            padding: 4px 6px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .error-dialog-content {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .error-icon {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .error-icon-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .error-message {
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .error-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        /* Image Viewer Window */
+        .image-viewer-window {
+            position: absolute;
+            background-color: var(--win98-gray);
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            box-shadow: 1px 1px 0 var(--win98-white), -1px -1px 0 var(--win98-dark-gray);
+            width: 800px;
+            height: 800px;
+            z-index: 100;
+            display: none;
+            top: 100px;
+            left: 200px;
+        }
+
+        .image-viewer-content {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 24px);
+        }
+
+        .image-display {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .image-info {
+            background-color: var(--win98-white);
+            border: 1px inset;
+            padding: 6px;
+            font-size: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Real Image Display */
+        .real-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Command Prompt Window */
+        .cmd-window {
+            position: absolute;
+            background-color: #000000;
+            border: 2px solid;
+            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+            box-shadow: 1px 1px 0 var(--win98-white), -1px -1px 0 var(--win98-dark-gray);
+            width: 700px;
+            height: 500px;
+            z-index: 100;
+            display: none;
+            top: 50px;
+            left: 200px;
+        }
+
+        .cmd-content {
+            padding: 8px;
+            height: calc(100% - 24px);
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #00FF00;
+            line-height: 1.2;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .cmd-content::-webkit-scrollbar {
+            width: 16px;
+        }
+
+        .cmd-content::-webkit-scrollbar-track {
+            background: #000000;
+        }
+
+        .cmd-content::-webkit-scrollbar-thumb {
+            background: #00FF00;
+            border: 1px solid;
+            border-color: #008000 #004000 #004000 #008000;
+        }
+
+        .cmd-prompt {
+            color: #00FF00;
+            font-weight: bold;
+        }
+
+        .cmd-typing {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background-color: #00FF00;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Editable Text Area */
+        .editable-text {
+            width: 100%;
+            height: 400px;
+            background-color: white;
+            border: 1px inset;
+            padding: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            resize: none;
+            outline: none;
+        }
+
+        .save-button {
+            margin-top: 8px;
+            padding: 4px 12px;
+        }
+        .image-viewer-window {
+    width: 600px;  /* Reduced from 800px */
+    height: 600px; /* Reduced from 800px */
+}
+
+/* Make images responsive */
+.real-image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Add padding to image display area */
+.image-display {
+    padding: 10px;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+    text-align: center;
+    overflow: hidden; /* Prevent scrolling */
+}
+    </style>
+</head>
+<body>
+    <!-- Audio elements -->
+    <audio id="humSound" loop preload="auto" style="display: none;">
+        <source src="https://files.catbox.moe/z1ic8h.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound" preload="auto" style="display: none;">
+        <source src="https://files.catbox.moe/2lgnrz.mp3" type="audio/wav">
+    </audio>
+
+    <!-- Boot splash screen -->
+    <div id="boot-splash">
+        <div class="boot-logo">
+            SYSTEM_98
+        </div>
+        <div class="boot-logo-sub">Loading system...</div>
+        <div class="boot-progress-container">
+            <div class="boot-progress-bar" id="boot-progress-bar"></div>
+        </div>
+        <div class="boot-progress-text" id="boot-progress-text">loading system</div>
+    </div>
+    <!-- Desktop -->
+    <div id="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icon" id="icon-thispc" style="top: 10px; left: 10px;" onclick="openWindow('window-thispc'); playClickSound()">
+            <div class="desktop-icon-image">
+                <img src="https://files.catbox.moe/tqaw67.ico" alt="This PC" class="desktop-icon-img">
+            </div>
+            <div class="desktop-icon-label">This PC</div>
+        </div>
+
+        <div class="desktop-icon" id="icon-documents" style="top: 110px; left: 10px;" onclick="openWindow('window-documents'); playClickSound()">
+            <div class="desktop-icon-image">
+                <img src="https://files.catbox.moe/m8fpoa.ico" alt="My Documents" class="desktop-icon-img">
+            </div>
+            <div class="desktop-icon-label">My Documents</div>
+        </div>
+
+        <div class="desktop-icon" id="icon-recyclebin" style="top: 210px; left: 10px;" onclick="openWindow('window-recyclebin'); playClickSound()">
+            <div class="desktop-icon-image">
+                <img src="https://files.catbox.moe/o3ywtw.ico" alt="Recycle Bin" class="desktop-icon-img">
+            </div>
+            <div class="desktop-icon-label">Recycle Bin</div>
+        </div>
+
+        <div class="desktop-icon" id="icon-archived" style="top: 310px; left: 10px;" onclick="openWindow('window-archived'); playClickSound()">
+            <div class="desktop-icon-image">
+                <img src="https://files.catbox.moe/px4mmr.ico" alt="Archived Files" class="desktop-icon-img">
+            </div>
+            <div class="desktop-icon-label">Archived Files</div>
+        </div>
+
+        <!-- New Desktop Icons -->
+        <div class="desktop-icon" id="icon-ht05" style="top: 410px; left: 10px;" onclick="openHT05Image(); playClickSound()">
+            <div class="desktop-icon-image">
+                <img src="https://files.catbox.moe/7olpgd.jpg" alt="HT_05 Target" class="desktop-icon-img">
+            </div>
+            <div class="desktop-icon-label">HT_05 Target.jpg</div>
+        </div>
+
+        <div class="desktop-icon" id="icon-paper" style="top: 510px; left: 10px;" onclick="openPaperImage(); playClickSound()">
+            <div class="desktop-icon-image">
+                <img src="https://files.catbox.moe/37rnnj.jpg" alt="Paper" class="desktop-icon-img">
+            </div>
+            <div class="desktop-icon-label">Paper.png</div>
+        </div>
+
+        <div class="desktop-icon" id="icon-textdoc" style="top: 610px; left: 10px;" onclick="openTextDocument(); playClickSound()">
+            <div class="desktop-icon-image">
+                <img src="https://files.catbox.moe/cgqeqj.ico" alt="Text Document" class="desktop-icon-img">
+            </div>
+            <div class="desktop-icon-label">Message.txt</div>
+        </div>
+
+        <div class="desktop-icon" id="icon-document972" style="top: 710px; left: 10px;" onclick="openDocument972(); playClickSound()">
+    <div class="desktop-icon-image">
+        <img src="https://files.catbox.moe/eug7xm.png" alt="Document#972" class="desktop-icon-img">
+    </div>
+    <div class="desktop-icon-label">Document#972.png</div>
+</div>
+
+        <!-- Windows -->
+        <div class="window" id="window-thispc" style="top: 50px; left: 100px; width: 450px;">
+            <div class="title-bar">
+                <span class="title-bar-text">
+                    <img src="https://files.catbox.moe/tqaw67.ico" alt="This PC" class="title-bar-img">
+                    This PC
+                </span>
+                <div class="title-bar-controls">
+                    <button class="title-bar-button" onclick="minimizeWindow('window-thispc'); playClickSound()">_</button>
+                    <button class="title-bar-button" onclick="closeWindow('window-thispc'); playClickSound()">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="folder-path">C:\ARCHIVE\MNT\RECOVERED\</div>
+                <ul class="file-list" id="thispc-files"></ul>
+            </div>
+        </div>
+
+        <div class="window" id="window-documents" style="top: 80px; left: 150px; width: 1000px; height: 650px;">
+            <div class="title-bar">
+                <span class="title-bar-text">
+                    <img src="https://files.catbox.moe/52856v.ico" alt="My Documents" class="title-bar-img">
+                    My Documents - Archive Database
+                </span>
+                <div class="title-bar-controls">
+                    <button class="title-bar-button" onclick="minimizeWindow('window-documents'); playClickSound()">_</button>
+                    <button class="title-bar-button" onclick="closeWindow('window-documents'); playClickSound()">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+                <div class="folder-path">C:\Documents and Settings\User_972\My Documents</div>
+                
+                <!-- Folder View -->
+                <div class="documents-folder-tab active" id="documents-folder-view">
+                    <div class="documents-folder-grid" id="documents-folder-grid"></div>
+                </div>
+
+                <!-- Detail View -->
+                <div class="documents-folder-tab" id="documents-detail-view">
+                    <div style="padding: 4px; background: var(--win98-gray); border-bottom: 1px solid var(--win98-shadow);">
+                        <button class="button" onclick="backToFolderView(); playClickSound()" style="margin: 0; padding: 2px 6px; font-size: 10px;">← Back</button>
+                    </div>
+                    <div class="documents-detail-panel">
+                        <div class="documents-detail-images" id="documents-detail-images"></div>
+                        <div class="documents-detail-content">
+                            <div class="documents-detail-title" id="documents-detail-title"></div>
+                            <div class="documents-detail-description" id="documents-detail-description"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-recyclebin" style="top: 110px; left: 200px; width: 450px;">
+            <div class="title-bar">
+                <span class="title-bar-text">
+                    <img src="https://files.catbox.moe/o3ywtw.ico" alt="Recycle Bin" class="title-bar-img">
+                    Recycle Bin
+                </span>
+                <div class="title-bar-controls">
+                    <button class="title-bar-button" onclick="minimizeWindow('window-recyclebin'); playClickSound()">_</button>
+                    <button class="title-bar-button" onclick="closeWindow('window-recyclebin'); playClickSound()">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="hidden-files-warning">⚠ RECOVERED DELETED FILES - EXTREME CAUTION ADVISED</div>
+                <ul class="file-list" id="recyclebin-files"></ul>
+            </div>
+        </div>
+
+        <div class="window" id="window-archived" style="top: 140px; left: 250px; width: 500px;">
+            <div class="title-bar">
+                <span class="title-bar-text">
+                    <img src="https://files.catbox.moe/px4mmr.ico" alt="Archived Files" class="title-bar-img">
+                    Archived Files - User_972
+                </span>
+                <div class="title-bar-controls">
+                    <button class="title-bar-button" onclick="minimizeWindow('window-archived'); playClickSound()">_</button>
+                    <button class="title-bar-button" onclick="closeWindow('window-archived'); playClickSound()">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="hidden-files-warning">Archived Files:</div>
+                <div style="padding: 20px; text-align: center; color: #666;">
+                    (No Displayed Data)
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="window-viewer" style="top: 50px; left: 600px; width: 700px; height: 600px; display: none;">
+            <div class="title-bar">
+                <span class="title-bar-text" id="viewer-title">
+                    <img src="https://files.catbox.moe/1jivm2.ico" alt="Document Viewer" class="title-bar-img">
+                    Document Viewer
+                </span>
+                <div class="title-bar-controls">
+                    <button class="title-bar-button" onclick="minimizeWindow('window-viewer'); playClickSound()">_</button>
+                    <button class="title-bar-button" onclick="closeWindow('window-viewer'); playClickSound()">✕</button>
+                </div>
+            </div>
+            <div class="window-content" style="max-height: none; height: 570px;">
+                <div id="viewer-content"></div>
+            </div>
+        </div>
+
+        <!-- Text Document Window -->
+        <div class="window" id="window-textdoc" style="top: 100px; left: 300px; width: 600px; height: 500px; display: none;">
+            <div class="title-bar">
+                <span class="title-bar-text">
+                    <img src="https://files.catbox.moe/cgqeqj.ico" alt="Text Document" class="title-bar-img">
+                    Anatoly_Note.txt
+                </span>
+                <div class="title-bar-controls">
+                    <button class="title-bar-button" onclick="minimizeWindow('window-textdoc'); playClickSound()">_</button>
+                    <button class="title-bar-button" onclick="closeWindow('window-textdoc'); playClickSound()">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <textarea class="editable-text" id="editable-text">MRIS Agents, I know you are hunting me. I can almost feel your boots in the hallways, your radios whispering my name like a prayer you no longer believe in. You think you are closing in, but if you are reading this, you are already too late. I have slipped into the quiet corners of this world, the ones your training never taught you to see. You keep telling yourselves I broke a law, that I escaped, that I betrayed my post and called it retirement, but you never understood what I was truly after. You never had the vision for it. You never had the courage. I wanted to show you the truth. I wanted you to witness what the HT experiment becomes when it is freed from your trembling hands. You build fragile things that collapse the moment reality breathes on them. I built something that breathes back. And now it is waiting for you. Open the Bulk door. Inside, your present is resting in the dark, patient and eager, ready to be studied if you still believe you have the resolve you brag about. Consider this my final offering, a reminder of what happens when a mind like mine stops pretending to be human.                                                             (Vladimir Anatoly | User_972)</textarea>
+                <button class="button save-button" onclick="saveTextDocument(); playClickSound()">Save</button>
+            </div>
+        </div>
+
+        <!-- Image Viewer Window -->
+        <div class="image-viewer-window" id="image-viewer-window">
+            <div class="title-bar">
+                <span class="title-bar-text" id="image-viewer-title">
+                    <img src="https://files.catbox.moe/naqvy5.ico" alt="Image Viewer" class="title-bar-img">
+                    Image Viewer
+                </span>
+                <div class="title-bar-controls">
+                    <button class="title-bar-button" onclick="minimizeWindow('image-viewer-window'); playClickSound()">_</button>
+                    <button class="title-bar-button" onclick="closeWindow('image-viewer-window'); playClickSound()">✕</button>
+                </div>
+            </div>
+            <div class="image-viewer-content">
+                <div class="image-display" id="image-display">
+                    <!-- Real images will be displayed here -->
+                </div>
+                <div class="image-info" id="image-info">Image information will appear here</div>
+            </div>
+        </div>
+
+        <!-- Command Prompt Window -->
+        <div class="cmd-window" id="cmd-window">
+            <div class="title-bar">
+                <span class="title-bar-text" id="cmd-title">
+                    <img src="https://files.catbox.moe/mqubww.ico" alt="Command Prompt" class="title-bar-img">
+                    Command Prompt - MRIS Upload
+                </span>
+                <div class="title-bar-controls">
+                    <button class="title-bar-button" onclick="minimizeWindow('cmd-window'); playClickSound()">_</button>
+                    <button class="title-bar-button" onclick="closeWindow('cmd-window'); playClickSound()">✕</button>
+                </div>
+            </div>
+            <div class="cmd-content" id="cmd-content">
+                <!-- Command prompt content will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Error Dialog -->
+        <div class="error-dialog" id="error-dialog">
+            <div class="error-dialog-title">
+                <span>Error</span>
+                <button class="title-bar-button" onclick="closeErrorDialog(); playClickSound()" style="width: 14px; height: 12px; font-size: 8px;">✕</button>
+            </div>
+            <div class="error-dialog-content">
+                <div class="error-icon">
+                    <img src="https://files.catbox.moe/65q5jq.png" alt="Error" class="error-icon-img">
+                </div>
+                <div class="error-message" id="error-message">
+                    This file is corrupted or broken and cannot be opened.
+                </div>
+                <div class="error-buttons">
+                    <button class="button" onclick="closeErrorDialog(); playClickSound()">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Control Panel -->
+        <div class="audio-control-panel" id="audio-control-panel">
+            <div class="audio-control-header">Audio Controls</div>
+            
+            <div class="audio-control-group">
+                <div class="audio-control-label">
+                    <span>Background Hum</span>
+                    <div class="audio-toggle active" id="hum-toggle" onclick="toggleHum(); playClickSound()">
+                        <div class="audio-toggle-knob"></div>
+                    </div>
+                </div>
+                <input type="range" class="audio-slider" id="hum-volume" min="0" max="100" value="3" oninput="setHumVolume(this.value)">
+                <div style="font-size: 9px; text-align: center;">Volume: <span id="hum-volume-display">3%</span></div>
+            </div>
+            
+            <div class="audio-control-group">
+                <div class="audio-control-label">
+                    <span>Click Sounds</span>
+                    <div class="audio-toggle active" id="click-toggle" onclick="toggleClicks(); playClickSound()">
+                        <div class="audio-toggle-knob"></div>
+                    </div>
+                </div>
+                <input type="range" class="audio-slider" id="click-volume" min="0" max="100" value="10" oninput="setClickVolume(this.value)">
+                <div style="font-size: 9px; text-align: center;">Volume: <span id="click-volume-display">10%</span></div>
+            </div>
+            
+            <button class="audio-button" onclick="toggleAudioPanel(); playClickSound()">Close</button>
+        </div>
+
+        <!-- Start Menu -->
+        <div class="start-menu" id="start-menu">
+            <div class="start-menu-header">
+                <div class="user-photo" id="user-photo">
+                    <img src="https://files.catbox.moe/7otacc.png" alt="User Photo" class="user-photo-img">
+                </div>
+                <div class="user-info">
+                    <div class="user-name">User_972</div>
+                    <div class="user-status">Online</div>
+                </div>
+            </div>
+            <div class="start-menu-content">
+                <div class="start-menu-item" onclick="openWindow('window-thispc'); toggleStartMenu(); playClickSound()">
+                    <div class="start-menu-item-icon">
+                        <img src="https://files.catbox.moe/tqaw67.ico" alt="This PC" class="start-menu-item-img">
+                    </div>
+                    <div>This PC</div>
+                </div>
+                <div class="start-menu-item" onclick="openWindow('window-documents'); toggleStartMenu(); playClickSound()">
+                    <div class="start-menu-item-icon">
+                        <img src="https://files.catbox.moe/52856v.ico" alt="My Documents" class="start-menu-item-img">
+                    </div>
+                    <div>My Documents</div>
+                </div>
+                <div class="start-menu-item" onclick="openWindow('window-recyclebin'); toggleStartMenu(); playClickSound()">
+                    <div class="start-menu-item-icon">
+                        <img src="https://files.catbox.moe/o3ywtw.ico" alt="Recycle Bin" class="start-menu-item-img">
+                    </div>
+                    <div>Recycle Bin</div>
+                </div>
+                <div class="start-menu-item" onclick="openWindow('window-archived'); toggleStartMenu(); playClickSound()">
+                    <div class="start-menu-item-icon">
+                        <img src="https://files.catbox.moe/px4mmr.ico" alt="Archived Files" class="start-menu-item-img">
+                    </div>
+                    <div>Archived Files</div>
+                </div>
+                <div class="start-menu-item" onclick="openTerminal(); toggleStartMenu(); playClickSound()">
+                    <div class="start-menu-item-icon">
+                        <img src="https://files.catbox.moe/mqubww.ico" alt="Terminal" class="start-menu-item-img">
+                    </div>
+                    <div>Terminal</div>
+                </div>
+                <div class="start-menu-divider"></div>
+                <div class="start-menu-item" onclick="logoff(); playClickSound()">
+                    <div class="start-menu-item-icon">
+                        <img src="https://files.catbox.moe/1xgnrn.ico" alt="Log Off" class="start-menu-item-img">
+                    </div>
+                    <div>Switch User</div>
+                </div>
+                <div class="start-menu-item" onclick="shutdown(); playClickSound()">
+                    <div class="start-menu-item-icon">
+                        <img src="https://files.catbox.moe/qgjv4n.ico" alt="Shut Down" class="start-menu-item-img">
+                    </div>
+                    <div>Shut Down</div>
+                </div>
+            </div>
+            <div class="start-menu-footer">
+                <button class="button" onclick="toggleStartMenu(); playClickSound()">Close</button>
+            </div>
+        </div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <button class="start-button" id="start-button" onclick="toggleStartMenu(); playClickSound()">Start</button>
+            
+            <!-- Audio Control Icon -->
+            <div class="taskbar-audio-icon" id="audio-icon" onclick="toggleAudioPanel(); playClickSound()">🔊</div>
+            
+            <div class="taskbar-clock" id="taskbar-clock">4:25 PM<br>10/15/1998</div>
+        </div>
+    </div>
+ 
+    <script>
+
+function openDocument972() {
+    const imageViewer = document.getElementById('image-viewer-window');
+    const imageTitle = document.getElementById('image-viewer-title');
+    const imageDisplay = document.getElementById('image-display');
+    const imageInfo = document.getElementById('image-info');
+    
+    imageTitle.textContent = 'Image Viewer - Document#972';
+    
+    // Clear previous content and load real image
+    imageDisplay.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = "https://files.catbox.moe/eug7xm.png";
+    img.alt = "Document#972";
+    img.className = 'real-image';
+    img.style.maxWidth = '90%';
+    img.style.maxHeight = '90%';
+    imageDisplay.appendChild(img);
+    
+    imageInfo.textContent = 'Document#972';
+    
+    imageViewer.style.display = 'block';
+    bringToFront('image-viewer-window');
+}
+
+// ===============================
+// AUDIO AUTOPLAY SOLUTION
+// ===============================
+
+let audioEnabled = {
+    hum: true,
+    clicks: true
+};
+
+// Initialize audio immediately when page loads
+window.addEventListener('load', function() {
+    // Set default volumes
+    setHumVolume(3);  // 0.03 volume
+    setClickVolume(10); // 0.1 volume
+    
+    // Start background audio immediately with improved autoplay
+    startBackgroundAudio();
+});
+
+// Improved audio autoplay function
+function startBackgroundAudio() {
+    const humSound = document.getElementById('humSound');
+    
+    // Strategy 1: Try direct autoplay first
+    const playAudio = () => {
+        humSound.play().then(() => {
+            console.log("Background hum audio started successfully");
+        }).catch(error => {
+            console.log("Autoplay blocked, waiting for user interaction:", error);
+            
+            // Strategy 2: Create a subtle interaction prompt
+            const audioPrompt = document.createElement('div');
+            audioPrompt.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 9999;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-family: 'MS Sans Serif', sans-serif;
+                font-size: 14px;
+                text-align: center;
+            `;
+            audioPrompt.innerHTML = `
+                <div style="background: #c0c0c0; padding: 20px; border: 2px solid #dfdfdf; color: black;">
+                    <div style="margin-bottom: 10px;">System_98</div>
+                    <div style="font-size: 12px; margin-bottom: 15px;">Welcome, User_972</div>
+                    <button style="padding: 5px 15px; background: #c0c0c0; border: 2px outset; cursor: pointer;">Login</button>
+                </div>
+            `;
+            
+            document.body.appendChild(audioPrompt);
+            
+            const enableAudio = () => {
+                humSound.play().catch(console.error);
+                document.body.removeChild(audioPrompt);
+                document.removeEventListener('click', enableAudio);
+            };
+            
+            audioPrompt.addEventListener('click', enableAudio);
+            document.addEventListener('click', enableAudio);
+        });
+    };
+    
+    // Try to play immediately
+    playAudio();
+    
+    // Also try when page becomes visible (in case tab was backgrounded)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden && audioEnabled.hum && humSound.paused) {
+            humSound.play().catch(console.error);
+        }
+    });
+}
+
+// Function to toggle audio control panel
+function toggleAudioPanel() {
+    const audioPanel = document.getElementById('audio-control-panel');
+    if (audioPanel.style.display === 'block') {
+        audioPanel.style.display = 'none';
+    } else {
+        audioPanel.style.display = 'block';
+        // Position it above the taskbar audio icon
+        const audioIcon = document.getElementById('audio-icon');
+        const rect = audioIcon.getBoundingClientRect();
+        audioPanel.style.bottom = (window.innerHeight - rect.top + 5) + 'px';
+        audioPanel.style.right = (window.innerWidth - rect.right) + 'px';
+        bringToFront('audio-control-panel');
+    }
+}
+
+// Function to toggle background hum
+function toggleHum() {
+    const humSound = document.getElementById('humSound');
+    const humToggle = document.getElementById('hum-toggle');
+    
+    if (audioEnabled.hum) {
+        humSound.pause();
+        humToggle.classList.remove('active');
+        audioEnabled.hum = false;
+    } else {
+        humSound.play().catch(e => console.log("Could not play hum sound:", e));
+        humToggle.classList.add('active');
+        audioEnabled.hum = true;
+    }
+}
+
+// Function to toggle click sounds
+function toggleClicks() {
+    const clickToggle = document.getElementById('click-toggle');
+    
+    if (audioEnabled.clicks) {
+        clickToggle.classList.remove('active');
+        audioEnabled.clicks = false;
+    } else {
+        clickToggle.classList.add('active');
+        audioEnabled.clicks = true;
+    }
+}
+
+// Function to set hum volume
+function setHumVolume(value) {
+    const humSound = document.getElementById('humSound');
+    const display = document.getElementById('hum-volume-display');
+    
+    // Convert to decimal (0-1 range)
+    const volume = value / 100;
+    humSound.volume = volume;
+    display.textContent = value + '%';
+}
+
+// Function to set click volume
+function setClickVolume(value) {
+    const display = document.getElementById('click-volume-display');
+    display.textContent = value + '%';
+    
+    // Store the volume for click sounds
+    window.clickVolume = value / 100;
+}
+
+// Function to play click sound
+function playClickSound() {
+    if (!audioEnabled.clicks) return;
+    
+    const clickSound = document.getElementById('clickSound');
+    
+    // Reset the audio to start from beginning
+    clickSound.currentTime = 0;
+    
+    // Set volume
+    clickSound.volume = window.clickVolume || 0.1;
+    
+    // Play the sound
+    clickSound.play().catch(error => {
+        // Ignore errors (might happen if audio is blocked)
+    });
+}
+
+// Close audio panel when clicking outside
+document.addEventListener('click', function(event) {
+    const audioPanel = document.getElementById('audio-control-panel');
+    const audioIcon = document.getElementById('audio-icon');
+    
+    if (audioPanel && !audioPanel.contains(event.target) && !audioIcon.contains(event.target)) {
+        audioPanel.style.display = 'none';
+    }
+});
+        // ===============================
+        // STATE & DATA
+        // ===============================
+
+        const STATE = {
+            bootComplete: false,
+            currentZIndex: 100,
+            windows: {},
+            currentImageIndex: 0,
+            currentDocumentImages: []
+        };
+
+        // ===============================
+        // CLOCK FUNCTIONALITY
+        // ===============================
+
+        function updateClock() {
+            const now = new Date();
+            const options = { 
+                timeZone: 'America/New_York',
+                hour12: true,
+                hour: 'numeric',
+                minute: '2-digit'
+            };
+            const timeString = now.toLocaleTimeString('en-US', options);
+            const dateString = now.toLocaleDateString('en-US', { 
+                timeZone: 'America/New_York',
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric'
+            });
+            
+            document.getElementById('taskbar-clock').innerHTML = `${timeString}<br>${dateString}`;
+        }
+
+        // Initialize clock and update every second
+        function initializeClock() {
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // ===============================
+        // IMAGE CONFIGURATION
+        // ===============================
+        
+        // Easy image configuration - just update these URLs with your actual images
+        const IMAGE_CONFIG = {
+            // User photos
+            userPhoto: "https://files.catbox.moe/p9nx33.png",
+            
+            // Desktop icons (48x48)
+            computerIcon: "https://files.catbox.moe/tqaw67.ico",
+            documentsIcon: "https://files.catbox.moe/1jivm2.ico", 
+            recycleBinIcon: "https://files.catbox.moe/o3ywtw.ico",
+            archiveIcon: "https://files.catbox.moe/px4mmr.ico",
+            
+            // Title bar icons (16x16)
+            titleComputerIcon: "https://files.catbox.moe/tqaw67.ico",
+            titleDocumentsIcon: "https://files.catbox.moe/1jivm2.ico",
+            titleRecycleBinIcon: "https://files.catbox.moe/o3ywtw.ico",
+            titleArchiveIcon: "https://files.catbox.moe/px4mmr.ico",
+            titleDocumentViewerIcon: "https://files.catbox.moe/1jivm2.ico",
+            titleImageViewerIcon: "https://files.catbox.moe/naqvy5.ico",
+            
+            // Start menu icons (16x16)
+            startComputerIcon: "https://via.placeholder.com/16x16/000000/FFFFFF?text=PC",
+            startDocumentsIcon: "https://via.placeholder.com/16x16/000000/FFFFFF?text=DOC",
+            startRecycleBinIcon: "https://via.placeholder.com/16x16/000000/FFFFFF?text=BIN",
+            startArchiveIcon: "https://files.catbox.moe/px4mmr.ico",
+            startLogoffIcon: "https://via.placeholder.com/16x16/000000/FFFFFF?text=OFF",
+            startRestartIcon: "https://via.placeholder.com/16x16/000000/FFFFFF?text=RST",
+            startShutdownIcon: "https://via.placeholder.com/16x16/000000/FFFFFF?text=PWR",
+            
+            // File icons (16x16)
+            fileDriveIcon: "https://files.catbox.moe/hxzmgx.ico",
+            fileWarningIcon: "https://files.catbox.moe/qnucys.png",
+            fileDeletedIcon: "https://via.placeholder.com/16x16/000000/FFFFFF?text=DEL",
+            fileArchivedIcon: "https://files.catbox.moe/px4mmr.ico",
+            
+            // Error icon
+            errorIcon: "https://via.placeholder.com/32x32/FF0000/FFFFFF?text=!"
+        };
+
+        // ===============================
+        // IMAGE PLACEHOLDER CONFIGURATION
+        // ===============================
+        
+        // EASY-TO-REPLACE IMAGE PLACEHOLDERS
+        // Simply replace the URLs in this object with your actual image URLs
+        const IMAGE_PLACEHOLDERS = {
+            // Document 1 Images
+            "Hank_Peterson": "https://files.catbox.moe/4h3j89.png",
+            "Renata_Peterson": "https://files.catbox.moe/dtfq2s.png",
+            "Maria_Peterson": "https://files.catbox.moe/gmrpow.png",
+            "Sofía_Peterson": "https://files.catbox.moe/notuyx.png",
+
+            // Document 2 Images
+            "Inc_1": "https://files.catbox.moe/x2hyu7.jpeg",
+            "Inc_2": "https://files.catbox.moe/chlwpd.jpeg",
+            "Inc_3": "https://files.catbox.moe/yo0y56.jpeg",
+            "Inc_4": "https://files.catbox.moe/qkusso.jpeg",
+            // Document 3 Images
+            "DESK_VACANT": "https://via.placeholder.com/300x200/333333/FFFFFF?text=DESK_VACANT",
+            "BADGE_LOG_ANOM": "https://via.placeholder.com/300x200/333333/FFFFFF?text=BADGE_LOG",
+            "CLOCK_LAST_SEEN": "https://via.placeholder.com/300x200/333333/FFFFFF?text=CLOCK_LAST_SEEN",
+            "DOOR_ACCESS": "https://via.placeholder.com/300x200/333333/FFFFFF?text=DOOR_ACCESS",
+            "SECURITY_CAM_LOOP": "https://via.placeholder.com/300x200/333333/FFFFFF?text=SECURITY_CAM"
+
+        };
+
+        // Function to get image URL from placeholder
+        function getImageUrl(imageKey) {
+            // Convert the image key to match our placeholder keys
+            const cleanKey = imageKey.replace(/\n/g, '_').replace(/ /g, '_');
+            return IMAGE_PLACEHOLDERS[cleanKey] || `https://via.placeholder.com/300x200/333333/FFFFFF?text=${encodeURIComponent(imageKey)}`;
+        }
+
+        // Expanded document data with 10 images each and detailed content
+        const DOCUMENTS = [
+            {
+                id: 1,
+                title: "Emilia Peterson (Family Members Details)",
+                type: "doc",
+                images: [
+                    "Hank_Peterson",
+                    "Renata_Peterson",
+                    "Maria_Peterson",
+                    "Sofía_Peterson"
+                ],
+                content: `The Family Members Of HT_05 (Emilia Peterson)
+
+DATE: 26/03/2016
+Building Number: 121
+Street Name: Alhambra Circle
+Street Address: Venetian Pool
+State: FL
+City: Coral Gables
+Post Code: 33134
+PERSONAL LOG — USER_972
+
+DETAILS:::
+
+Renata Peterson
+44 years old
+Height 1.72
+High school teacher
+Comes home exhausted. Always looks like she's carrying something she can't tell anyone. She tries to keep control of the house but no one listens. She keeps breaking a little more every week.
+
+Hank Peterson
+52 years old
+Height 1.95
+Company owner
+Barely speaks. Barely looks at anyone. Spends long minutes sitting in his parked car before going inside like he hates the place. The silence he brings with him ruins the whole house.
+
+Maria Peterson
+19 years old
+Height 1.79
+College freshman
+Studies general courses at ████ Community College. Moves slowly like she hasn't slept in days. She spends hours scrolling through old photos of Emilia. She keeps checking her phone for messages that never come. She's slipping apart.
+
+Sofia Peterson
+16 years old
+Height 1.69
+High school student
+Distracted in class. Teachers think she is shy but she is just scared. Watches doors and windows more than people. She misses Emilia more than the others do.
+
+The family is collapsing on its own. I didn't need to do anything. Just watch.
+
+Emilia Peterson
+23 years old
+Height 1.92
+Cashier
+Law graduate
+Lives alone in a small apartment she bought with her own savings. Cheap locks. Thin walls. No alarms. No one checking on her.
+She loves going out with her friends. Late nights. Loud bars. Walking home alone while laughing at nothing. Too busy living to notice the same figure following her across the street, behind the cars, at the corners.
+
+She made it easy.
+She separated herself from them.
+She made herself visible.
+She made herself mine to observe.
+
+I labeled her as User_972 the night she moved out. That was the moment it became clear she would have no one to protect her. No police ties. No military bloodlines. No one trained to think like I do.
+
+The cracks in her family opened the door.
+I only stepped inside.
+
+END OF NOTE
+                `
+            },
+            {
+                id: 2,
+                title: "Recovered Classified Document Of The Incident 922",
+                type: "rvd",
+                images: [
+                    "Inc_1",
+                    "Inc_2",
+                    "Inc_3",
+                    "Inc_4"
+                ],
+                content: `Broken File Details :::
+
+RECOVERED ARCHIVE — INCIDENT 922
+Torn Document Restoration – Partial Reconstruction
+
+LOCATION: LAB SECTOR C – BIOLOGICAL THERAPEUTICS CHAMBER
+EXPERIMENTAL MATERIALS: MSVGS, PTDS, TREX, QRTS, GH, LH, FSH, ADH, TSH
+SUBJECT CLASSIFICATION: Human volunteers 001–017
+FINAL STATUS: Catastrophic morphological cascade
+
+HOUR‑BY‑HOUR PRE‑BREACH LOG
+
+[09:47] – Initial instability.
+
+Hormone vials containing MSVGS and PTDS rupture spontaneously.
+
+Fluids spread across the floor and cling to surfaces with abnormal viscosity.
+
+Subjects report throbbing beneath their skin, especially along the spine and jaw.
+
+[09:52] – Rapid endocrine overload.
+
+Mixtures of TREX and QRTS begin reacting with stored GH/LH/FSH.
+
+Subjects' pupils dilate fully.
+
+Musculature begins twitching, expanding unevenly beneath the dermis.
+
+Several subjects begin screaming that their bones "feel soft."
+
+[09:58] – Morphic distortion begins.
+
+Skin begins forming folds, protrusions, and fluid‑filled sacs.
+
+One subject's arm elongates abruptly, ligaments stretching far beyond natural limits before collapsing into a limp, boneless mass.
+
+All subjects lose the ability to articulate proper speech; sounds become wet, labored, and strained.
+
+[10:03] – Containment fails.
+
+A subject undergoing extreme reaction to ADH collapses, body swelling with retained fluid.
+
+Skin begins splitting in long, shallow tears — not deep, but numerous.
+
+A wave of hormonal vapor rises from their bodies, triggering mass instability among remaining subjects.
+
+[10:11] – Psychological effects on personnel.
+
+Personnel exposed to the hormonal vapors report:
+
+severe disorientation
+
+metallic taste
+
+auditory distortions
+
+Two guards panic after witnessing a subject's facial structure melt downward as cartilage loses rigidity.
+
+[10:19] – SUBs begin uncontrolled movements.
+(Note: SUBs = Subjects Under Biological‑Shift)
+
+Movements appear clumsy, directionless, driven by reflex rather than intent.
+
+Limbs flail without coordination; some SUBs drag themselves using whatever remains functional.
+
+No indications of awareness or recognition.
+
+One SUB repeatedly slams its head against the wall until structural deformation of its skull prevents further motion.
+
+[10:34] – Breach.
+
+A cluster of SUBs collapses against the containment doors. The accumulated weight and constant convulsions weaken the lock.
+
+Door gives way.
+
+Personnel attempting evacuation encounter SUBs in corridors.
+
+No attack behavior — but any physical contact results in severe endocrine contamination, causing rapid tissue swelling and loss of motor control.
+
+[10:47] – Log corrupted.
+
+Pages waterlogged with unknown fluid.
+
+Handwritten note partially restored:
+
+"They're not attacking... they're just moving and falling and breaking themselves. But if they touch you, you start changing too. It's like drowning inside your own biology."
+
+DAY 7 – POST‑BREACH ANALYSIS
+
+Tissue samples from fallen SUBs show layered cellular identity, as if multiple hormone profiles fused into one organism.
+
+Muscles contain patches of rigid, bone‑like fibers intertwined with soft liquefied tissue.
+
+Some SUB remains still twitch, even without central nervous systems intact.
+
+Personnel exposed to even trace hormone residue exhibit:
+
+uncontrolled swelling
+
+endocrine storms
+
+rapid exhaustion
+
+persistent low‑frequency tremors
+
+No survivors from direct contact.
+
+DAY 15 – RECOVERED INTERNAL MEMO
+
+"None of them were conscious. This wasn't aggression. It was collapse. Their bodies couldn't understand themselves anymore.
+
+They weren't attacking us — they were reaching out because they couldn't stand up."
+
+DAY 30 – FINAL FINDINGS
+
+SUB morphology: unstable, involuntary, catastrophic
+
+Hormonal mixtures: contamination between MSVGS / PTDS / TREX / QRTS correlated with organ liquefaction and structural collapse
+
+Survivor count: 0
+
+Remaining SUB forms: inert but still biologically active
+
+Risk level: EXTREME — even dried residue can trigger transformation
+
+Recovered Last Note (Severely Damaged)
+
+"I keep hearing the wet dragging sound in my dreams.
+They weren't monsters.
+They were people whose bodies betrayed them.
+We did this to them."
+                `
+            },
+            {
+                id: 3,
+                title: "New Document",
+                type: "doc",
+                images: [
+                   
+                ],
+                content: `
+
+
+                `
+            }
+        ];
+
+        // Archive Drive files (all deleted)
+        const ARCHIVE_DRIVE_FILES = [
+            { name: 'PROJECT_EX5_DATA.zip', status: 'DELETED' },
+            { name: 'RESEARCH_NOTES_1999.dco', status: 'DELETED' },
+            { name: 'EXPERIMENT_LOG_001.rtf', status: 'DELETED' },
+            { name: 'SECURITY_FOOTAGE_10-13.mov', status: 'DELETED' },
+            { name: 'AUDIO_RECORDING_SESSION7.wav', status: 'DELETED' },
+            { name: 'EQUIPMENT_SCHEMATICS.dco', status: 'DELETED' },
+            { name: 'PERSONNEL_FILES.rar', status: 'DELETED' },
+            { name: 'FACILITY_BLUEPRINTS.exe', status: 'DELETED' },
+            { name: 'HT_01.dco', status: 'DELETED' },
+            { name: 'HT_02.dco', status: 'DELETED' },
+            { name: 'HT_03.dco', status: 'DELETED' },
+            { name: 'HT_04.dco', status: 'DELETED' }
+        ];
+
+        // ===============================
+        // BOOT & INITIALIZATION
+        // ===============================
+
+        function startBoot() {
+            const splash = document.getElementById('boot-splash');
+            const progressBar = document.getElementById('boot-progress-bar');
+            const progressText = document.getElementById('boot-progress-text');
+            
+            let progress = 0;
+            const messages = [
+                'Loading system files...',
+                'Loading kernel modules...',
+                'Initializing devices...',
+                'Loading system drivers...',
+                'Mounting filesystem...',
+                'Checking disk integrity...',
+                'Loading archives...',
+                'Finalizing boot sequence...'
+            ];
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = progress + '%';
+                const messageIndex = Math.floor((progress / 100) * (messages.length - 1));
+                progressText.textContent = messages[messageIndex];
+                
+                if (progress === 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        document.getElementById('desktop').style.display = 'block';
+                        initializeDesktop();
+                    }, 1000);
+                }
+            }, 400);
+        }
+
+        function initializeDesktop() {
+            populateDocumentsGrid();
+            populateFileExplorer();
+            setupWindows();
+            initializeClock();
+            
+            // Close start menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const startMenu = document.getElementById('start-menu');
+                const startButton = document.getElementById('start-button');
+                
+                if (!startMenu.contains(event.target) && !startButton.contains(event.target)) {
+                    startMenu.style.display = 'none';
+                }
+            });
+        }
+
+        function populateDocumentsGrid() {
+            const grid = document.getElementById('documents-folder-grid');
+            grid.innerHTML = '';
+            
+            // Show only first 16 documents in folder view
+            DOCUMENTS.slice(0, 16).forEach((doc, idx) => {
+                const item = document.createElement('div');
+                item.className = 'documents-folder-item';
+                item.innerHTML = `
+                    <div class="documents-folder-icon">
+                        <img src="https://files.catbox.moe/1jivm2.ico" alt="Document" class="documents-folder-img">
+                    </div>
+                    <div class="documents-folder-label">${doc.title.substring(0, 20)}...</div>
+                `;
+                item.onclick = () => openDocumentDetail(idx);
+                grid.appendChild(item);
+            });
+        }
+
+        function populateFileExplorer() {
+            const thispcList = document.getElementById('thispc-files');
+            const recycleList = document.getElementById('recyclebin-files');
+            const archivedList = document.getElementById('archived-files');
+            
+            // This PC files - Removed Local Disk C: as requested
+            [
+                { name: 'ARCHIVE_DRIVE (D:)', icon: IMAGE_CONFIG.fileDriveIcon, action: 'archive-drive' },
+                { name: 'MRIS_TERMINAL_SYSTEM_FILES', icon: IMAGE_CONFIG.fileWarningIcon, action: 'recovered-sector' }
+            ].forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'file-item';
+                li.innerHTML = `<span class="file-item-icon"><img src="${item.icon}" alt="${item.name}" class="file-item-img"></span><span class="file-item-name">${item.name}</span>`;
+                if (item.action === 'archive-drive') {
+                    li.onclick = () => openArchiveDrive();
+                } else if (item.action === 'recovered-sector') {
+                    li.onclick = () => openRecoveredSector();
+                }
+                thispcList.appendChild(li);
+            });
+            
+            // Recycle Bin files - Updated with requested files
+            [
+                { name: 'Emilia_Full_info.dco', status: 'DELETED' },
+                { name: '11111.mp4', status: 'DELETED' },
+                { name: 'record_1.wav', status: 'DELETED' },
+                { name: 'record_2.wav', status: 'DELETED' },
+                { name: 'record_3.wav', status: 'DELETED' },
+                { name: 'record_4.wav', status: 'DELETED' },
+                { name: 'record_5.wav', status: 'DELETED' },
+                { name: 'record_6.wav', status: 'DELETED' },
+                { name: 'record_7.wav', status: 'DELETED' },
+                { name: 'record_8.wav', status: 'DELETED' },
+                { name: 'record_9.wav', status: 'DELETED' },
+                { name: 'record_10.wav', status: 'DELETED' },
+                { name: 'record_11.wav', status: 'DELETED' },
+                { name: 'record_12.wav', status: 'DELETED' },
+                { name: 'record_13.wav', status: 'DELETED' },
+                { name: 'record_14.wav', status: 'DELETED' },
+                { name: 'record_15.wav', status: 'DELETED' },
+                { name: 'record_16.wav', status: 'DELETED' },
+                { name: 'record_17.wav', status: 'DELETED' },
+                { name: 'record_18.wav', status: 'DELETED' },
+                { name: 'record_19.wav', status: 'DELETED' },
+                { name: 'record_20.wav', status: 'DELETED' },
+                { name: 'record_21.wav', status: 'DELETED' },
+                { name: 'Document_HT_05.txt', status: 'DELETED' },
+                { name: 'Formula.dco', status: 'DELETED' },
+                { name: 'Img.jpg', status: 'DELETED' },
+                { name: 'Cmd.vfl', status: 'DELETED' }
+            ].forEach(file => {
+                const li = document.createElement('li');
+                li.className = 'file-item';
+                li.innerHTML = `<span class="file-item-icon"><img src="${IMAGE_CONFIG.fileDeletedIcon}" alt="Deleted File" class="file-item-img"></span><span class="file-item-name">[DELETED] ${file.name}</span>`;
+                li.onclick = () => showBrokenFileError(file.name);
+                recycleList.appendChild(li);
+            });
+            
+            // Archived files - Empty as requested
+            // No files to populate
+        }
+
+        function setupWindows() {
+            document.querySelectorAll('.window').forEach(win => {
+                makeDraggable(win);
+                win.addEventListener('mousedown', function() {
+                    bringToFront(this.id);
+                });
+            });
+            
+            // Also make the image viewer and cmd windows draggable
+            const imageViewer = document.getElementById('image-viewer-window');
+            makeDraggable(imageViewer);
+            imageViewer.addEventListener('mousedown', function() {
+                bringToFront(this.id);
+            });
+            
+            const cmdWindow = document.getElementById('cmd-window');
+            makeDraggable(cmdWindow);
+            cmdWindow.addEventListener('mousedown', function() {
+                bringToFront(this.id);
+            });
+            
+            // Make text document window draggable
+            const textDocWindow = document.getElementById('window-textdoc');
+            makeDraggable(textDocWindow);
+            textDocWindow.addEventListener('mousedown', function() {
+                bringToFront(this.id);
+            });
+        }
+
+        function makeDraggable(element) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            const titleBar = element.querySelector('.title-bar');
+            
+            if (titleBar) {
+                titleBar.onmousedown = dragMouseDown;
+            }
+            
+            function dragMouseDown(e) {
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+            
+            function elementDrag(e) {
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+            
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        function bringToFront(windowId) {
+            STATE.currentZIndex += 1;
+            document.getElementById(windowId).style.zIndex = STATE.currentZIndex;
+        }
+
+        function openWindow(windowId) {
+            const window = document.getElementById(windowId);
+            if (window) {
+                window.style.display = 'block';
+                bringToFront(windowId);
+            }
+        }
+
+        function closeWindow(windowId) {
+            document.getElementById(windowId).style.display = 'none';
+        }
+
+        function minimizeWindow(windowId) {
+            const win = document.getElementById(windowId);
+            if (win.style.display === 'none') {
+                win.style.display = 'block';
+            } else {
+                win.style.display = 'none';
+            }
+        }
+
+        function toggleStartMenu() {
+            const startMenu = document.getElementById('start-menu');
+            if (startMenu.style.display === 'block') {
+                startMenu.style.display = 'none';
+            } else {
+                startMenu.style.display = 'block';
+                bringToFront('start-menu');
+            }
+        }
+
+        function logoff() {
+            alert('Logging off User_972...');
+            toggleStartMenu();
+        }
+
+        function restart() {
+            if (confirm('Are you sure you want to restart your computer?')) {
+                alert('Restarting SYSTEM_98...');
+                toggleStartMenu();
+            }
+        }
+
+        function shutdown() {
+            if (confirm('Are you sure you want to shut down your computer?')) {
+                alert('Shutting down SYSTEM_98...');
+                toggleStartMenu();
+            }
+        }
+
+        function openDocumentDetail(index) {
+            const doc = DOCUMENTS[index];
+            const folderView = document.getElementById('documents-folder-view');
+            const detailView = document.getElementById('documents-detail-view');
+            const titleEl = document.getElementById('documents-detail-title');
+            const descriptionEl = document.getElementById('documents-detail-description');
+            const imagesContainer = document.getElementById('documents-detail-images');
+            
+            // Update detail panel
+            titleEl.textContent = doc.title;
+            descriptionEl.textContent = doc.content;
+            
+            // Clear and populate images (show up to 10 images)
+            imagesContainer.innerHTML = '';
+            const imagesToShow = doc.images ? doc.images.slice(0, 10) : [];
+            imagesToShow.forEach((img, idx) => {
+                const imgDiv = document.createElement('div');
+                imgDiv.className = 'documents-detail-image';
+                imgDiv.textContent = img;
+                imgDiv.onclick = () => openImageInWindow(img, idx, doc.title, imagesToShow);
+                imagesContainer.appendChild(imgDiv);
+            });
+            
+            // Switch views
+            folderView.classList.remove('active');
+            detailView.classList.add('active');
+        }
+
+        function backToFolderView() {
+            const folderView = document.getElementById('documents-folder-view');
+            const detailView = document.getElementById('documents-detail-view');
+            folderView.classList.add('active');
+            detailView.classList.remove('active');
+        }
+
+        function openDocument(index) {
+            const doc = DOCUMENTS[index];
+            const viewer = document.getElementById('window-viewer');
+            const title = document.getElementById('viewer-title');
+            const content = document.getElementById('viewer-content');
+            
+            title.textContent = doc.title;
+            
+            let html = '<div style="padding: 8px;">';
+            
+            if (doc.images && doc.images.length > 0) {
+                html += '<div class="section-header">📷 RECOVERED_IMAGES (' + doc.images.length + ')</div>';
+                html += '<div class="image-grid">';
+                doc.images.forEach((img, idx) => {
+                    html += `<div class="image-frame" onclick="openImageInWindow('${img}', ${idx}, '${doc.title}', ${JSON.stringify(doc.images).replace(/'/g, "\\'")})">${img}</div>`;
+                });
+                html += '</div>';
+            }
+            
+            html += '<div class="section-header">📝 COMPLETE_DOCUMENT_CONTENT</div>';
+            html += `<div class="text-viewer">${doc.content}</div>`;
+            html += '</div>';
+            
+            content.innerHTML = html;
+            viewer.style.display = 'block';
+            bringToFront('window-viewer');
+        }
+
+        function openHT05Image() {
+            const imageViewer = document.getElementById('image-viewer-window');
+            const imageTitle = document.getElementById('image-viewer-title');
+            const imageDisplay = document.getElementById('image-display');
+            const imageInfo = document.getElementById('image-info');
+            
+            imageTitle.textContent = 'Image Viewer - HT_05 Target';
+            
+            // Clear previous content and load real image
+            imageDisplay.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = "https://files.catbox.moe/40zba5.jpeg";
+            img.alt = "HT_05 Target";
+            img.className = 'real-image';
+            imageDisplay.appendChild(img);
+            
+            imageInfo.textContent = 'HT_05 Target';
+            
+            imageViewer.style.display = 'block';
+            bringToFront('image-viewer-window');
+        }
+
+        function openPaperImage() {
+            const imageViewer = document.getElementById('image-viewer-window');
+            const imageTitle = document.getElementById('image-viewer-title');
+            const imageDisplay = document.getElementById('image-display');
+            const imageInfo = document.getElementById('image-info');
+            
+            imageTitle.textContent = 'Image Viewer - Paper';
+            
+            // Clear previous content and load real image
+            imageDisplay.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = "https://files.catbox.moe/0uk3ci.jpeg";
+            img.alt = "Paper";
+            img.className = 'real-image';
+            imageDisplay.appendChild(img);
+            
+            imageInfo.textContent = 'Paper';
+            
+            imageViewer.style.display = 'block';
+            bringToFront('image-viewer-window');
+        }
+
+        function openTextDocument() {
+            const textDocWindow = document.getElementById('window-textdoc');
+            textDocWindow.style.display = 'block';
+            bringToFront('window-textdoc');
+        }
+
+        function saveTextDocument() {
+            alert('Text document saved successfully!');
+        }
+
+        function openImageInWindow(imageName, index, documentTitle, allImages) {
+            const imageViewer = document.getElementById('image-viewer-window');
+            const imageTitle = document.getElementById('image-viewer-title');
+            const imageDisplay = document.getElementById('image-display');
+            const imageInfo = document.getElementById('image-info');
+            
+            // Store current image data for navigation
+            STATE.currentImageIndex = index;
+            STATE.currentDocumentImages = allImages;
+            STATE.currentDocumentTitle = documentTitle;
+            
+            imageTitle.textContent = `Image Viewer - ${documentTitle}`;
+            
+            // Clear previous content and load real image
+            imageDisplay.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = getImageUrl(imageName);
+            img.alt = imageName;
+            img.className = 'real-image';
+            imageDisplay.appendChild(img);
+            
+            imageInfo.textContent = `Image ${index + 1} of ${allImages.length}\n${imageName}`;
+            
+            imageViewer.style.display = 'block';
+            bringToFront('image-viewer-window');
+        }
+
+        function showBrokenFileError(filename) {
+            const errorDialog = document.getElementById('error-dialog');
+            const errorMessage = document.getElementById('error-message');
+            
+            errorMessage.innerHTML = `
+                <strong>${filename}</strong><br><br>
+                This file is corrupted or broken and cannot be opened.<br>
+                The file may have been damaged during deletion or recovery.
+            `;
+            
+            errorDialog.style.display = 'block';
+            bringToFront('error-dialog');
+        }
+
+        function closeErrorDialog() {
+            document.getElementById('error-dialog').style.display = 'none';
+        }
+
+        function openArchiveDrive() {
+            const viewer = document.getElementById('window-viewer');
+            const title = document.getElementById('viewer-title');
+            const content = document.getElementById('viewer-content');
+            
+            title.textContent = 'ARCHIVE_DRIVE (D:) - DELETED FILES';
+            
+            let html = '<div style="padding: 8px;">';
+            html += '<div class="hidden-files-warning">⚠ ALL FILES IN THIS DRIVE HAVE BEEN DELETED</div>';
+            html += '<div class="section-header">🗂️ DELETED FILES</div>';
+            html += '<ul class="file-list">';
+            
+            ARCHIVE_DRIVE_FILES.forEach(file => {
+                html += `<li class="file-item" onclick="showBrokenFileError('${file.name}')">
+                    <span class="file-item-icon"><img src="${IMAGE_CONFIG.fileDeletedIcon}" alt="Deleted File" class="file-item-img"></span>
+                    <span class="file-item-name">${file.name} [${file.status}]</span>
+                </li>`;
+            });
+            
+            html += '</ul>';
+            html += '</div>';
+            
+            content.innerHTML = html;
+            viewer.style.display = 'block';
+            bringToFront('window-viewer');
+        }
+
+        function openRecoveredSector() {
+            const viewer = document.getElementById('window-viewer');
+            const title = document.getElementById('viewer-title');
+            const content = document.getElementById('viewer-content');
+            
+            title.textContent = 'MRIS TERMINAL SYSTEM';
+            
+            let html = '<div style="padding: 8px;">';
+            html += '<div class="section-header">MRIS TERMINAL SYSTEM</div>';
+            html += '<div class="text-viewer">';
+            html += 'DOCUMENT: MRIS_SQS_DEVICE_091\n';
+            html += 'Morphic Resonance Integration Studies\n';
+            html += '</div>';
+            html += '<div style="text-align: center; margin-top: 20px;">';
+            html += '<button class="button" onclick="redirectToMRIS()" style="padding: 8px 16px; font-size: 12px;">OPEN M.R.I.S. DATABASE</button>';
+            html += '</div>';
+            html += '</div>';
+            
+            content.innerHTML = html;
+            viewer.style.display = 'block';
+            bringToFront('window-viewer');
+        }
+
+        function redirectToMRIS() { 
+            // Redirect to # without warning
+            window.location.href = 'https://obscure265-cloud.github.io/MRIS-TERMINAL-SYSTEM/';
+        }
+
+        // Function to update user photo
+        function updateUserPhoto(imageUrl) {
+            const userPhoto = document.getElementById('user-photo');
+            userPhoto.innerHTML = `<img src="${imageUrl}" alt="User Photo" class="user-photo-img">`;
+        }
+
+        // ===============================
+        // TERMINAL FUNCTIONALITY
+        // ===============================
+
+        function openTerminal() {
+            const cmdWindow = document.getElementById('cmd-window');
+            const cmdContent = document.getElementById('cmd-content');
+            
+            // Terminal content with code about MRIS upload
+            const terminalContent = `
+C:\\> mris_upload.exe --init
+Initializing MRIS Terminal Connection...
+Connection established: MRIS_SERVER_01
+Authentication: User_972
+Access Level: ADMIN
+
+C:\\> upload --files "C:\\Documents\\*.*" --target "MRIS_SYSTEM"
+Scanning directory: C:\\Documents\\
+
+Found files:
+- INITIAL_TRANSMISSION_LOG_19.doc
+- EQUIPMENT_MALFUNCTION_SEQUENCE_DAY_1_TO_30.doc
+- PERSONNEL_LOG_EXCERPT_DISAPPEARANCES.doc
+- Anatoly_Personal_Notes.pdf
+- Null_pictures.zip
+
+C:\\> upload --file "INITIAL_TRANSMISSION_LOG_19.doc" --target "MRIS_SYSTEM"
+Uploading: INITIAL_TRANSMISSION_LOG_19.doc
+Progress: [████████████████████] 100%
+Status: SUCCESS
+File uploaded to: MRIS://ARCHIVES/INCIDENT_REPORTS/
+
+C:\\> upload --file "EQUIPMENT_MALFUNCTION_SEQUENCE_DAY_1_TO_30.doc" --target "MRIS_SYSTEM"
+Uploading: EQUIPMENT_MALFUNCTION_SEQUENCE_DAY_1_TO_30.doc
+Progress: [████████████████████] 100%
+Status: SUCCESS
+File uploaded to: MRIS://ARCHIVES/TECHNICAL_LOGS/
+
+C:\\> upload --file "PERSONNEL_LOG_EXCERPT_DISAPPEARANCES.doc" --target "MRIS_SYSTEM"
+Uploading: PERSONNEL_LOG_EXCERPT_DISAPPEARANCES.doc
+Progress: [████████████████████] 100%
+Status: SUCCESS
+File uploaded to: MRIS://ARCHIVES/PERSONNEL_RECORDS/
+
+C:\\> upload --file "Anatoly_Personal_Notes.pdf" --target "MRIS_SYSTEM"
+Uploading: Anatoly_Personal_Notes.pdf
+Progress: [████████████████████] 100%
+Status: SUCCESS
+File uploaded to: MRIS://PERSONAL/ANATOLY/
+
+C:\\> upload --file "Null_pictures.zip" --target "MRIS_SYSTEM"
+Uploading: Null_pictures.zip
+Progress: [████████████████████] 100%
+Status: SUCCESS
+File uploaded to: MRIS://MEDIA/IMAGES/
+
+C:\\> mris_sync --verify
+Verifying upload integrity...
+Checking: INITIAL_TRANSMISSION_LOG_19.doc... OK
+Checking: EQUIPMENT_MALFUNCTION_SEQUENCE_DAY_1_TO_30.doc... OK
+Checking: PERSONNEL_LOG_EXCERPT_DISAPPEARANCES.doc... OK
+Checking: Anatoly_Personal_Notes.pdf... OK
+Checking: Null_pictures.zip... OK
+
+All files successfully uploaded to MRIS Terminal System.
+Upload Summary:
+- 3 document files
+- 1 personal notes file
+- 1 image archive
+Total size: 47.3 MB
+Transfer rate: 2.1 MB/s
+
+C:\\> mris_encrypt --level MAXIMUM --target "MRIS://ARCHIVES/"
+Encrypting archive files with AES-256...
+Progress: [████████████████████] 100%
+Encryption complete. All files secured.
+
+C:\\> mris_log --entry "User_972 uploaded files to MRIS system"
+Log entry created: 2024-01-15 14:32:17
+Entry: User_972 successfully uploaded all documents and Anatoly's Personal Notes to MRIS Terminal System.
+
+C:\\> disconnect
+Disconnecting from MRIS_SERVER_0972...
+Connection terminated.
+
+C:\\> <span class="cmd-prompt">_<span class="cmd-typing"></span></span>
+            `;
+            
+            cmdContent.innerHTML = terminalContent;
+            cmdWindow.style.display = 'block';
+            bringToFront('cmd-window');
+            
+            // Auto-scroll to bottom
+            cmdContent.scrollTop = cmdContent.scrollHeight;
+        }
+
+        window.addEventListener('load', startBoot);
+        function openHT05Image() {
+    const imageViewer = document.getElementById('image-viewer-window');
+    const imageTitle = document.getElementById('image-viewer-title');
+    const imageDisplay = document.getElementById('image-display');
+    const imageInfo = document.getElementById('image-info');
+    
+    imageTitle.textContent = 'Image Viewer - HT_05 Target';
+    
+    // Clear previous content and load real image
+    imageDisplay.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = "https://files.catbox.moe/40zba5.jpeg";
+    img.alt = "HT_05 Target";
+    img.className = 'real-image';
+    img.style.maxWidth = '90%';  // Additional size control
+    img.style.maxHeight = '90%'; // Additional size control
+    imageDisplay.appendChild(img);
+    
+    imageInfo.textContent = 'HT_05 Target';
+    
+    imageViewer.style.display = 'block';
+    bringToFront('image-viewer-window');
+}
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+// Disable F12 key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12') {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Disable Ctrl+Shift+I (Chrome, Firefox, Edge)
+    if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Disable Ctrl+Shift+J (Chrome)
+    if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+        e.preventDefault();
+        return false;
+    }
+    
+    // Disable Ctrl+U (View source)
+    if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+        return false;
+    }
+});
+
+// Additional protection against devtools opening
+let devToolsOpen = false;
+setInterval(function() {
+    const widthThreshold = window.outerWidth - window.innerWidth > 160;
+    const heightThreshold = window.outerHeight - window.innerHeight > 160;
+    
+    if ((widthThreshold || heightThreshold) && !devToolsOpen) {
+        devToolsOpen = true;
+        // You can add additional actions here if devtools is detected
+        console.log('Developer tools detected');
+    }
+}, 1000);
+
+    </script>
+</body>
+</html>
