@@ -932,8 +932,8 @@
             border: 2px solid;
             border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
             box-shadow: 1px 1px 0 var(--win98-white), -1px -1px 0 var(--win98-dark-gray);
-            width: 800px;
-            height: 800px;
+            width: 1200px;
+            height: 1200px;
             z-index: 100;
             display: none;
             top: 100px;
@@ -947,17 +947,15 @@
             height: calc(100% - 24px);
         }
 
-        .image-display {
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 8px;
-            padding: 20px;
-            text-align: center;
-        }
-
+     .image-display {
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    flex: 1;
+    margin-bottom: 8px;
+    padding: 10px;
+    overflow: auto;
+    position: relative;
+    display: block;
+}
         .image-info {
             background-color: var(--win98-white);
             border: 1px inset;
@@ -966,13 +964,10 @@
             font-family: 'Courier New', monospace;
         }
 
-        /* Real Image Display */
-        .real-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
+    
+.real-image {
+    display: block;
+}
         /* Command Prompt Window */
         .cmd-window {
             position: absolute;
@@ -1052,34 +1047,113 @@
             padding: 4px 12px;
         }
         .image-viewer-window {
-    width: 600px;  /* Reduced from 800px */
-    height: 600px; /* Reduced from 800px */
+    width: 1050px;  /* Reduced from 800px */
+    height: 1050px; /* Reduced from 800px */
 }
-
-/* Make images responsive */
-.real-image {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-}
-
-/* Add padding to image display area */
-.image-display {
-    padding: 10px;
-    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-    flex: 1;
+/* Zoom Controls */
+.zoom-controls {
+    position: absolute;
+    bottom: 14px;
+    right: 10px;
     display: flex;
-    justify-content: center;
+    gap: 4px;
+    z-index: 10;
+}
+
+.zoom-button {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+    border: 2px solid;
+    border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+    display: flex;
     align-items: center;
-    margin-bottom: 8px;
-    text-align: center;
-    overflow: hidden; /* Prevent scrolling */
+    justify-content: center;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    color: black;
+}
+
+.zoom-button:active {
+    border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+}
+
+/* Context Menu */
+.context-menu {
+    position: fixed;
+    background-color: var(--win98-gray);
+    border: 2px solid;
+    border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+    box-shadow: 1px 1px 0 var(--win98-white), -1px -1px 0 var(--win98-dark-gray);
+    z-index: 3000;
+    display: none;
+    min-width: 150px;
+}
+
+.context-menu-item {
+    padding: 4px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.context-menu-item:hover {
+    background-color: var(--win98-blue);
+    color: white;
+}
+
+.context-menu-divider {
+    height: 2px;
+    background: linear-gradient(90deg, var(--win98-light-gray), var(--win98-shadow));
+    margin: 2px 0;
+}
+
+.context-menu-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.context-menu-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
     </style>
 </head>
 <body>
+    <div class="context-menu" id="context-menu">
+    <div class="context-menu-item" onclick="refreshDesktop(); hideContextMenu(); playClickSound()">
+        <div class="context-menu-icon">
+            <img src="https://files.catbox.moe/1jivm2.ico" alt="Refresh" class="context-menu-icon-img">
+        </div>
+        <div>Refresh</div>
+    </div>
+    <div class="context-menu-item" onclick="copyToClipboard(); hideContextMenu(); playClickSound()">
+        <div class="context-menu-icon">
+            <img src="https://files.catbox.moe/1jivm2.ico" alt="Copy" class="context-menu-icon-img">
+        </div>
+        <div>Copy</div>
+    </div>
+    <div class="context-menu-item" onclick="pasteFromClipboard(); hideContextMenu(); playClickSound()">
+        <div class="context-menu-icon">
+            <img src="https://files.catbox.moe/1jivm2.ico" alt="Paste" class="context-menu-icon-img">
+        </div>
+        <div>Paste</div>
+    </div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item" onclick="createNewTextDocument(); hideContextMenu(); playClickSound()">
+        <div class="context-menu-icon">
+            <img src="https://files.catbox.moe/cgqeqj.ico" alt="New Text Document" class="context-menu-icon-img">
+        </div>
+        <div>New Text Document</div>
+    </div>
+</div>
     <!-- Audio elements -->
     <audio id="humSound" loop preload="auto" style="display: none;">
         <source src="https://files.catbox.moe/z1ic8h.mp3" type="audio/mpeg">
@@ -1154,7 +1228,7 @@
 
         <div class="desktop-icon" id="icon-document972" style="top: 710px; left: 10px;" onclick="openDocument972(); playClickSound()">
     <div class="desktop-icon-image">
-        <img src="https://files.catbox.moe/eug7xm.png" alt="Document#972" class="desktop-icon-img">
+        <img src="https://files.catbox.moe/2j1rce.jpeg" alt="Document#972" class="desktop-icon-img">
     </div>
     <div class="desktop-icon-label">Document#972.png</div>
 </div>
@@ -1265,43 +1339,52 @@
         </div>
 
         <!-- Text Document Window -->
-        <div class="window" id="window-textdoc" style="top: 100px; left: 300px; width: 600px; height: 500px; display: none;">
-            <div class="title-bar">
-                <span class="title-bar-text">
-                    <img src="https://files.catbox.moe/cgqeqj.ico" alt="Text Document" class="title-bar-img">
-                    Message.txt
-                </span>
-                <div class="title-bar-controls">
-                    <button class="title-bar-button" onclick="minimizeWindow('window-textdoc'); playClickSound()">_</button>
-                    <button class="title-bar-button" onclick="closeWindow('window-textdoc'); playClickSound()">✕</button>
-                </div>
-            </div>
-            <div class="window-content">
-                <textarea class="editable-text" id="editable-text">MRIS Agents, I know you are hunting me. I can almost feel your boots in the hallways, your radios whispering my name like a prayer you no longer believe in. You think you are closing in, but if you are reading this, you are already too late. I have slipped into the quiet corners of this world, the ones your training never taught you to see. You keep telling yourselves I broke a law, that I escaped, that I betrayed my post and called it retirement, but you never understood what I was truly after. You never had the vision for it. You never had the courage. I wanted to show you the truth. I wanted you to witness what the HT experiment becomes when it is freed from your trembling hands. You build fragile things that collapse the moment reality breathes on them. I built something that breathes back. And now it is waiting for you. Open the Bulk door. Inside, your present is resting in the dark, patient and eager, ready to be studied if you still believe you have the resolve you brag about. Consider this my final offering, a reminder of what happens when a mind like mine stops pretending to be human.                                                             (Vladimir Anatoly | User_972)</textarea>
-                <button class="button save-button" onclick="saveTextDocument(); playClickSound()">Save</button>
-            </div>
+       <!-- Text Document Window -->
+<div class="window" id="window-textdoc" style="top: 100px; left: 300px; width: 600px; height: 500px; display: none;">
+    <div class="title-bar">
+        <span class="title-bar-text">
+            <img src="https://files.catbox.moe/cgqeqj.ico" alt="Text Document" class="title-bar-img">
+            Message.txt
+        </span>
+        <div class="title-bar-controls">
+            <button class="title-bar-button" onclick="minimizeWindow('window-textdoc'); playClickSound()">_</button>
+            <button class="title-bar-button" onclick="closeWindow('window-textdoc'); playClickSound()">✕</button>
         </div>
-
+    </div>
+    <div class="window-content">
+        <div class="zoom-controls">
+            <button class="zoom-button" onclick="zoomInText(); playClickSound()">+</button>
+            <button class="zoom-button" onclick="zoomOutText(); playClickSound()">-</button>
+            <button class="zoom-button" onclick="resetTextZoom(); playClickSound()">⟲</button>
+        </div>
+        <textarea class="editable-text zoomable-content" id="editable-text">For the MRIS Agents, I know you are all looking for me. If you are reading this, then you are already behind. I am not where you expect, and you cannot track me the way you used to. You keep saying I broke a rule or escaped, but you never understood what I was trying to do. I wanted to show you what the HT experiment becomes. You built something unstable and ignored my administrations because of Dr. J. Butler’s ego and pride. He was jealous of me and of my hard work, and that negligence led to Incident 922. That is why I escaped the MRIS. I know it is a red flag, but I want to show you the real HT Experiment. I created something that actually works. It is waiting for you behind the Bulk Door, waiting to be picked up by you so you can study what Vladimir did. And im not going to turn myself in, i know you butcher people without any mercy for breaking the smallest law, but you all are stupid to know who is Vladimir Anatoly.</textarea>
+        <button class="button save-button" onclick="saveTextDocument(); playClickSound()">Save</button>
+    </div>
+</div>
         <!-- Image Viewer Window -->
-        <div class="image-viewer-window" id="image-viewer-window">
-            <div class="title-bar">
-                <span class="title-bar-text" id="image-viewer-title">
-                    <img src="https://files.catbox.moe/naqvy5.ico" alt="Image Viewer" class="title-bar-img">
-                    Image Viewer
-                </span>
-                <div class="title-bar-controls">
-                    <button class="title-bar-button" onclick="minimizeWindow('image-viewer-window'); playClickSound()">_</button>
-                    <button class="title-bar-button" onclick="closeWindow('image-viewer-window'); playClickSound()">✕</button>
-                </div>
-            </div>
-            <div class="image-viewer-content">
-                <div class="image-display" id="image-display">
-                    <!-- Real images will be displayed here -->
-                </div>
-                <div class="image-info" id="image-info">Image information will appear here</div>
-            </div>
+<div class="image-viewer-window" id="image-viewer-window">
+    <div class="title-bar">
+        <span class="title-bar-text" id="image-viewer-title">
+            <img src="https://files.catbox.moe/naqvy5.ico" alt="Image Viewer" class="title-bar-img">
+            Image Viewer
+        </span>
+        <div class="title-bar-controls">
+            <button class="title-bar-button" onclick="minimizeWindow('image-viewer-window'); playClickSound()">_</button>
+            <button class="title-bar-button" onclick="closeWindow('image-viewer-window'); playClickSound()">✕</button>
         </div>
-
+    </div>
+    <div class="image-viewer-content">
+        <div class="zoom-controls">
+            <button class="zoom-button" onclick="zoomInImage(); playClickSound()">+</button>
+            <button class="zoom-button" onclick="zoomOutImage(); playClickSound()">-</button>
+            <button class="zoom-button" onclick="resetImageZoom(); playClickSound()">⟲</button>
+        </div>
+        <div class="image-display" id="image-display">
+            <!-- Real images will be displayed here -->
+        </div>
+        <div class="image-info" id="image-info">Image information will appear here</div>
+    </div>
+</div>
         <!-- Command Prompt Window -->
         <div class="cmd-window" id="cmd-window">
             <div class="title-bar">
@@ -1452,19 +1535,21 @@ function openDocument972() {
     // Clear previous content and load real image
     imageDisplay.innerHTML = '';
     const img = document.createElement('img');
-    img.src = "https://files.catbox.moe/eug7xm.png";
+    img.src = "https://files.catbox.moe/2j1rce.jpeg";
     img.alt = "Document#972";
     img.className = 'real-image';
-    img.style.maxWidth = '90%';
-    img.style.maxHeight = '90%';
+    // Remove individual max-width/max-height styles - let CSS handle it
     imageDisplay.appendChild(img);
     
-    imageInfo.textContent = 'Document#972';
+    // Reset zoom level
+    imageZoomLevel = 1;
+    img.style.transform = 'scale(1)';
+    
+    imageInfo.textContent = 'Document#972\n(Zoom: 100%)';
     
     imageViewer.style.display = 'block';
     bringToFront('image-viewer-window');
 }
-
 // ===============================
 // AUDIO AUTOPLAY SOLUTION
 // ===============================
@@ -2361,41 +2446,50 @@ We did this to them."
         }
 
         function openTextDocument() {
-            const textDocWindow = document.getElementById('window-textdoc');
-            textDocWindow.style.display = 'block';
-            bringToFront('window-textdoc');
-        }
-
+    const textDocWindow = document.getElementById('window-textdoc');
+    const textArea = document.getElementById('editable-text');
+    
+    // Reset zoom level
+    textZoomLevel = 1;
+    textArea.style.fontSize = '10px';
+    
+    textDocWindow.style.display = 'block';
+    bringToFront('window-textdoc');
+}
         function saveTextDocument() {
             alert('Text document saved successfully!');
         }
 
-        function openImageInWindow(imageName, index, documentTitle, allImages) {
-            const imageViewer = document.getElementById('image-viewer-window');
-            const imageTitle = document.getElementById('image-viewer-title');
-            const imageDisplay = document.getElementById('image-display');
-            const imageInfo = document.getElementById('image-info');
-            
-            // Store current image data for navigation
-            STATE.currentImageIndex = index;
-            STATE.currentDocumentImages = allImages;
-            STATE.currentDocumentTitle = documentTitle;
-            
-            imageTitle.textContent = `Image Viewer - ${documentTitle}`;
-            
-            // Clear previous content and load real image
-            imageDisplay.innerHTML = '';
-            const img = document.createElement('img');
-            img.src = getImageUrl(imageName);
-            img.alt = imageName;
-            img.className = 'real-image';
-            imageDisplay.appendChild(img);
-            
-            imageInfo.textContent = `Image ${index + 1} of ${allImages.length}\n${imageName}`;
-            
-            imageViewer.style.display = 'block';
-            bringToFront('image-viewer-window');
-        }
+      function openImageInWindow(imageName, index, documentTitle, allImages) {
+    const imageViewer = document.getElementById('image-viewer-window');
+    const imageTitle = document.getElementById('image-viewer-title');
+    const imageDisplay = document.getElementById('image-display');
+    const imageInfo = document.getElementById('image-info');
+    
+    // Store current image data for navigation
+    STATE.currentImageIndex = index;
+    STATE.currentDocumentImages = allImages;
+    STATE.currentDocumentTitle = documentTitle;
+    
+    imageTitle.textContent = `Image Viewer - ${documentTitle}`;
+    
+    // Clear previous content and load real image
+    imageDisplay.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = getImageUrl(imageName);
+    img.alt = imageName;
+    img.className = 'real-image zoomable-content';
+    imageDisplay.appendChild(img);
+    
+    // Reset zoom level
+    imageZoomLevel = 1;
+    img.style.transform = 'scale(1)';
+    
+    imageInfo.textContent = `Image ${index + 1} of ${allImages.length}\n${imageName}\n(Zoom: 100%)`;
+    
+    imageViewer.style.display = 'block';
+    bringToFront('image-viewer-window');
+}
 
         function showBrokenFileError(filename) {
             const errorDialog = document.getElementById('error-dialog');
@@ -2573,7 +2667,7 @@ C:\\> <span class="cmd-prompt">_<span class="cmd-typing"></span></span>
         }
 
         window.addEventListener('load', startBoot);
-        function openHT05Image() {
+      function openHT05Image() {
     const imageViewer = document.getElementById('image-viewer-window');
     const imageTitle = document.getElementById('image-viewer-title');
     const imageDisplay = document.getElementById('image-display');
@@ -2586,12 +2680,42 @@ C:\\> <span class="cmd-prompt">_<span class="cmd-typing"></span></span>
     const img = document.createElement('img');
     img.src = "https://files.catbox.moe/40zba5.jpeg";
     img.alt = "HT_05 Target";
-    img.className = 'real-image';
-    img.style.maxWidth = '90%';  // Additional size control
-    img.style.maxHeight = '90%'; // Additional size control
+    img.className = 'real-image zoomable-content';
+    img.style.maxWidth = '90%';
+    img.style.maxHeight = '90%';
     imageDisplay.appendChild(img);
     
-    imageInfo.textContent = 'HT_05 Target';
+    // Reset zoom level
+    imageZoomLevel = 1;
+    img.style.transform = 'scale(1)';
+    
+    imageInfo.textContent = 'HT_05 Target\n(Zoom: 100%)';
+    
+    imageViewer.style.display = 'block';
+    bringToFront('image-viewer-window');
+}
+
+function openPaperImage() {
+    const imageViewer = document.getElementById('image-viewer-window');
+    const imageTitle = document.getElementById('image-viewer-title');
+    const imageDisplay = document.getElementById('image-display');
+    const imageInfo = document.getElementById('image-info');
+    
+    imageTitle.textContent = 'Image Viewer - Paper';
+    
+    // Clear previous content and load real image
+    imageDisplay.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = "https://files.catbox.moe/0uk3ci.jpeg";
+    img.alt = "Paper";
+    img.className = 'real-image zoomable-content';
+    imageDisplay.appendChild(img);
+    
+    // Reset zoom level
+    imageZoomLevel = 1;
+    img.style.transform = 'scale(1)';
+    
+    imageInfo.textContent = 'Paper\n(Zoom: 100%)';
     
     imageViewer.style.display = 'block';
     bringToFront('image-viewer-window');
@@ -2640,6 +2764,351 @@ setInterval(function() {
     }
 }, 1000);
 
+// ===============================
+// IMPROVED ZOOM FUNCTIONALITY
+// ===============================
+let imageZoomLevel = 1;
+let textZoomLevel = 1;
+const MAX_ZOOM_LEVEL = 3;
+const MIN_ZOOM_LEVEL = 0.1;
+
+function zoomInImage() {
+    const imageDisplay = document.getElementById('image-display');
+    const images = imageDisplay.querySelectorAll('img');
+    
+    if (imageZoomLevel < MAX_ZOOM_LEVEL) {
+        imageZoomLevel += 0.1;
+        images.forEach(img => {
+            // Use actual width/height scaling instead of transform
+            const originalWidth = img.naturalWidth || img.width;
+            const originalHeight = img.naturalHeight || img.height;
+            
+            img.style.width = (originalWidth * imageZoomLevel) + 'px';
+            img.style.height = (originalHeight * imageZoomLevel) + 'px';
+            img.style.maxWidth = 'none';
+            img.style.maxHeight = 'none';
+        });
+        updateImageZoomInfo();
+    }
+}
+
+function zoomOutImage() {
+    const imageDisplay = document.getElementById('image-display');
+    const images = imageDisplay.querySelectorAll('img');
+    
+    if (imageZoomLevel > MIN_ZOOM_LEVEL) {
+        imageZoomLevel -= 0.1;
+        images.forEach(img => {
+            // Use actual width/height scaling instead of transform
+            const originalWidth = img.naturalWidth || img.width;
+            const originalHeight = img.naturalHeight || img.height;
+            
+            img.style.width = (originalWidth * imageZoomLevel) + 'px';
+            img.style.height = (originalHeight * imageZoomLevel) + 'px';
+            img.style.maxWidth = 'none';
+            img.style.maxHeight = 'none';
+        });
+        updateImageZoomInfo();
+    }
+}
+
+function resetImageZoom() {
+    const imageDisplay = document.getElementById('image-display');
+    const images = imageDisplay.querySelectorAll('img');
+    
+    imageZoomLevel = 1;
+    images.forEach(img => {
+        // Reset to original dimensions
+        img.style.width = '';
+        img.style.height = '';
+        img.style.maxWidth = 'none';
+        img.style.maxHeight = 'none';
+        
+        // Reset scroll position
+        imageDisplay.scrollTop = 0;
+        imageDisplay.scrollLeft = 0;
+    });
+    
+    updateImageZoomInfo();
+}
+
+// Update the openImageInWindow function to remove constraints
+function openImageInWindow(imageName, index, documentTitle, allImages) {
+    const imageViewer = document.getElementById('image-viewer-window');
+    const imageTitle = document.getElementById('image-viewer-title');
+    const imageDisplay = document.getElementById('image-display');
+    const imageInfo = document.getElementById('image-info');
+    
+    // Store current image data for navigation
+    STATE.currentImageIndex = index;
+    STATE.currentDocumentImages = allImages;
+    STATE.currentDocumentTitle = documentTitle;
+    
+    imageTitle.textContent = `Image Viewer - ${documentTitle}`;
+    
+    // Clear previous content and load real image
+    imageDisplay.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = getImageUrl(imageName);
+    img.alt = imageName;
+    img.className = 'real-image zoomable-content';
+    
+    // Remove any size constraints
+    img.style.maxWidth = 'none';
+    img.style.maxHeight = 'none';
+    
+    // Wait for image to load before setting dimensions
+    img.onload = function() {
+        // Set initial dimensions
+        img.style.width = img.naturalWidth + 'px';
+        img.style.height = img.naturalHeight + 'px';
+    };
+    
+    imageDisplay.appendChild(img);
+    
+    // Reset zoom level
+    imageZoomLevel = 1;
+    
+    imageInfo.textContent = `Image ${index + 1} of ${allImages.length}\n${imageName}\n(Zoom: 100%)`;
+    
+    imageViewer.style.display = 'block';
+    bringToFront('image-viewer-window');
+}
+
+function updateImageZoomInfo() {
+    const imageInfo = document.getElementById('image-info');
+    const currentText = imageInfo.textContent.split('\n')[0];
+    imageInfo.textContent = `${currentText}\n(Zoom: ${Math.round(imageZoomLevel * 100)}%)`;
+}
+// ===============================
+// CONTEXT MENU FUNCTIONALITY
+// ===============================
+
+let contextMenu = null;
+
+function initializeContextMenu() {
+    contextMenu = document.getElementById('context-menu');
+    
+    // Add context menu event listener to the desktop
+    document.getElementById('desktop').addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        showContextMenu(e.clientX, e.clientY);
+        return false;
+    });
+    
+    // Hide context menu when clicking elsewhere
+    document.addEventListener('click', function(e) {
+        if (contextMenu && !contextMenu.contains(e.target)) {
+            hideContextMenu();
+        }
+    });
+    
+    // Hide context menu when pressing Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && contextMenu.style.display === 'block') {
+            hideContextMenu();
+        }
+    });
+}
+
+function showContextMenu(x, y) {
+    if (!contextMenu) return;
+    
+    // Position the context menu
+    contextMenu.style.left = x + 'px';
+    contextMenu.style.top = y + 'px';
+    contextMenu.style.display = 'block';
+    
+    // Ensure it stays within viewport
+    const rect = contextMenu.getBoundingClientRect();
+    if (rect.right > window.innerWidth) {
+        contextMenu.style.left = (window.innerWidth - rect.width) + 'px';
+    }
+    if (rect.bottom > window.innerHeight) {
+        contextMenu.style.top = (window.innerHeight - rect.height) + 'px';
+    }
+    
+    bringToFront('context-menu');
+}
+
+function hideContextMenu() {
+    if (contextMenu) {
+        contextMenu.style.display = 'none';
+    }
+}
+
+function refreshDesktop() {
+    // Simulate refresh by closing and reopening windows
+    document.querySelectorAll('.window').forEach(win => {
+        if (win.style.display === 'block') {
+            win.style.display = 'none';
+            setTimeout(() => {
+                win.style.display = 'block';
+                bringToFront(win.id);
+            }, 100);
+        }
+    });
+}
+
+function copyToClipboard() {
+    // Get selected text or default message
+    const selectedText = window.getSelection().toString();
+    const textToCopy = selectedText || 'No text selected';
+    
+    // Use modern clipboard API if available
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            console.log('Text copied to clipboard');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            fallbackCopyToClipboard(textToCopy);
+        });
+    } else {
+        fallbackCopyToClipboard(textToCopy);
+    }
+}
+
+function fallbackCopyToClipboard(text) {
+    // Fallback method for older browsers
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        console.log('Text copied to clipboard (fallback)');
+    } catch (err) {
+        console.error('Fallback copy failed: ', err);
+    }
+    document.body.removeChild(textArea);
+}
+
+function pasteFromClipboard() {
+    // Show message since we can't directly access clipboard for security reasons
+    alert('Paste functionality is limited in browsers for security reasons. Use Ctrl+V to paste text.');
+}
+
+function createNewTextDocument() {
+    // Create a new text document icon on the desktop
+    const desktop = document.getElementById('desktop');
+    const existingIcons = document.querySelectorAll('.desktop-icon');
+    
+    // Find a position that doesn't overlap with existing icons
+    let topPosition = 10;
+    let leftPosition = 100;
+    
+    // Simple algorithm to find empty space
+    for (let i = 0; i < 20; i++) {
+        const potentialTop = 10 + (i * 100);
+        let positionOccupied = false;
+        
+        existingIcons.forEach(icon => {
+            const rect = icon.getBoundingClientRect();
+            if (Math.abs(rect.top - potentialTop) < 80) {
+                positionOccupied = true;
+            }
+        });
+        
+        if (!positionOccupied) {
+            topPosition = potentialTop;
+            break;
+        }
+    }
+    
+    // Create the new icon
+    const newIcon = document.createElement('div');
+    newIcon.className = 'desktop-icon';
+    newIcon.style.top = topPosition + 'px';
+    newIcon.style.left = leftPosition + 'px';
+    newIcon.innerHTML = `
+        <div class="desktop-icon-image">
+            <img src="https://files.catbox.moe/cgqeqj.ico" alt="New Text Document" class="desktop-icon-img">
+        </div>
+        <div class="desktop-icon-label">New Text Document.txt</div>
+    `;
+    
+    // Add click functionality
+    newIcon.onclick = function() {
+        openNewTextDocument();
+        playClickSound();
+    };
+    
+    // Add to desktop
+    desktop.appendChild(newIcon);
+}
+
+function openNewTextDocument() {
+    const textDocWindow = document.getElementById('window-textdoc');
+    const textArea = document.getElementById('editable-text');
+    
+    // Update window title and content for new document
+    const titleBar = textDocWindow.querySelector('.title-bar-text');
+    titleBar.innerHTML = '<img src="https://files.catbox.moe/cgqeqj.ico" alt="Text Document" class="title-bar-img">New Text Document.txt';
+    
+    // Clear the text area
+    textArea.value = '';
+    
+    // Show the window
+    textDocWindow.style.display = 'block';
+    bringToFront('window-textdoc');
+}
+
+// Update the initializeDesktop function to include context menu initialization
+function initializeDesktop() {
+    populateDocumentsGrid();
+    populateFileExplorer();
+    setupWindows();
+    initializeClock();
+    initializeContextMenu(); // Add this line
+    
+    // Close start menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const startMenu = document.getElementById('start-menu');
+        const startButton = document.getElementById('start-button');
+        
+        if (!startMenu.contains(event.target) && !startButton.contains(event.target)) {
+            startMenu.style.display = 'none';
+        }
+    });
+}
+// ===============================
+// TEXT ZOOM FUNCTIONALITY
+// ===============================
+
+function zoomInText() {
+    const textArea = document.getElementById('editable-text');
+    
+    if (textZoomLevel < MAX_ZOOM_LEVEL) {
+        textZoomLevel += 0.1;
+        textArea.style.fontSize = (10 * textZoomLevel) + 'px';
+        updateTextZoomInfo();
+    }
+}
+
+function zoomOutText() {
+    const textArea = document.getElementById('editable-text');
+    
+    if (textZoomLevel > MIN_ZOOM_LEVEL) {
+        textZoomLevel -= 0.1;
+        textArea.style.fontSize = (10 * textZoomLevel) + 'px';
+        updateTextZoomInfo();
+    }
+}
+
+function resetTextZoom() {
+    const textArea = document.getElementById('editable-text');
+    
+    textZoomLevel = 1;
+    textArea.style.fontSize = '10px';
+    updateTextZoomInfo();
+}
+
+function updateTextZoomInfo() {
+    // Optional: You could add a zoom indicator for text if desired
+    console.log('Text (zoom: ' + Math.round(textZoomLevel * 100) + '%)');
+}
     </script>
 </body>
 </html>
