@@ -932,8 +932,8 @@
             border: 2px solid;
             border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
             box-shadow: 1px 1px 0 var(--win98-white), -1px -1px 0 var(--win98-dark-gray);
-            width: 1200px;
-            height: 1200px;
+            width: 900px;
+            height: 900px;
             z-index: 100;
             display: none;
             top: 100px;
@@ -1047,8 +1047,8 @@
             padding: 4px 12px;
         }
         .image-viewer-window {
-    width: 1050px;  /* Reduced from 800px */
-    height: 1050px; /* Reduced from 800px */
+    width: 900px;  /* Reduced from 800px */
+    height: 900px; /* Reduced from 800px */
 }
 /* Zoom Controls */
 .zoom-controls {
@@ -1246,7 +1246,7 @@
                 </div>
             </div>
             <div class="window-content">
-                <div class="folder-path">C:\ARCHIVE\MNT\RECOVERED\</div>
+                <div class="folder-path">C:\Files\MNT\Software\</div>
                 <ul class="file-list" id="thispc-files"></ul>
             </div>
         </div>
@@ -1255,7 +1255,7 @@
             <div class="title-bar">
                 <span class="title-bar-text">
                     <img src="https://files.catbox.moe/52856v.ico" alt="My Documents" class="title-bar-img">
-                    My Documents - Archive Database
+                    My Documents
                 </span>
                 <div class="title-bar-controls">
                     <button class="title-bar-button" onclick="minimizeWindow('window-documents'); playClickSound()">_</button>
@@ -1263,7 +1263,7 @@
                 </div>
             </div>
             <div class="window-content" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
-                <div class="folder-path">C:\Documents and Settings\User_972\My Documents</div>
+                <div class="folder-path">C:\USERS\User_972\My Documents</div>
                 
                 <!-- Folder View -->
                 <div class="documents-folder-tab active" id="documents-folder-view">
@@ -1298,7 +1298,7 @@
                 </div>
             </div>
             <div class="window-content">
-                <div class="hidden-files-warning">⚠ RECOVERED DELETED FILES - EXTREME CAUTION ADVISED</div>
+                <div class="hidden-files-warning">THE FILES CANNOT BE RETURNED AFTER THE DELETION.</div>
                 <ul class="file-list" id="recyclebin-files"></ul>
             </div>
         </div>
@@ -1819,10 +1819,7 @@ document.addEventListener('click', function(event) {
             "Sofía_Peterson": "https://files.catbox.moe/notuyx.png",
 
             // Document 2 Images
-            "Inc_1": "https://files.catbox.moe/x2hyu7.jpeg",
-            "Inc_2": "https://files.catbox.moe/chlwpd.jpeg",
-            "Inc_3": "https://files.catbox.moe/yo0y56.jpeg",
-            "Inc_4": "https://files.catbox.moe/qkusso.jpeg",
+            "Emilia_Peterson": "https://files.catbox.moe/ud459r.jpeg",
             // Document 3 Images
             "DESK_VACANT": "https://via.placeholder.com/300x200/333333/FFFFFF?text=DESK_VACANT",
             "BADGE_LOG_ANOM": "https://via.placeholder.com/300x200/333333/FFFFFF?text=BADGE_LOG",
@@ -1843,230 +1840,137 @@ document.addEventListener('click', function(event) {
         const DOCUMENTS = [
             {
                 id: 1,
-                title: "Emilia Peterson (Family Members Details)",
-                type: "doc",
+                title: "Family Member Details of the main target.",
+                type: "dco",
                 images: [
                     "Hank_Peterson",
                     "Renata_Peterson",
                     "Maria_Peterson",
                     "Sofía_Peterson"
                 ],
-                content: `The Family Members Of Emilia Peterson (The new experiment)
+                content: `The Family Members Of Emilia Peterson (The Primary Target)
 
 STALKING_DATE: 26/03/2016
 
-The family living place location: {
+> I stalked them by pretending to be several jobs, like a plumber and a carpenter. Entering their house, seeing a mess even though they are rich people, it's quiet even. Taking secret pictures of them and observing their behaviour, they are separate; the parents always argue over the smallest things. I knew that they had a daughter named Emilia. She was too separated from them, living alone and working as a cashier, and at that time, she became my primary target.
+
+The family living place location: 
 
 Building Number: 121
 Street Name: Alhambra Circle
 Street Address: Venetian Pool
 State: FL
 City: Coral Gables
-Post Code: 33134
-PERSONAL LOG — USER_972
 
-}
-
-DETAILS: {
+FAMILY DETAILS: 
 
 Renata Peterson
 44 years old
 Height 1.72
 High school teacher
-Comes home exhausted. Always looks like she's carrying something she can't tell anyone. She tries to keep control of the house, but no one listens. She keeps breaking a little more every week.
+Comes home exhausted. Always looks like she's carrying something she can't tell anyone. She tries to keep control of the house, but no one listens. She keeps breaking a little more every week. She is the only one who is kind to the family, trying to gather them and having a lovely time, but no one listens and always ignores her, trapping her in her own mind and emotions. If I had emotions like normal people do, I would be sad for her.
 
 Hank Peterson
 52 years old
 Height 1.95
 Company owner
-Barely speaks. Barely looks at anyone. Spends long minutes sitting in his parked car before going inside, like he hates the place. The silence he brings with him ruins the whole house.
+Barely speaks. Barely looks at anyone. Spends long minutes sitting in his parked car before going inside, like he hates the place. The silence he brings with him ruins the whole house. and spends the rest of his time in a bar with his friends. They used to do this after getting out of his company after work, and he arrived late at his house. He spends more time with his lover (Jane Parker) or his so-called girlfriend, away from his actual wife.
 
 Maria Peterson
 19 years old
 Height 1.79
 College freshman
-Studies general courses at ████ Community College. Moves slowly, like she hasn't slept in days. She spends hours scrolling through old photos of Emilia. She keeps checking her phone for messages that never come. She's slipping apart.
+Studies general courses at a Community College. Moves slowly, like she hasn't slept in days. She spends hours scrolling through social media. She keeps checking her phone for messages. Hating her parents for being strict on her choices. She has a boyfriend named Alen, hanging out with that skinny guy every time as if he is the only haven for her. I doubt that.
 
 Sofia Peterson
 16 years old
 Height 1.69
 High school student
-Distracted in class. Teachers think she is shy, but she is just scared. Watches doors and windows more than people. She misses Emilia more than the others do.
+Loud in class. Teachers think she is a bad person, but she is just empty inside, seeking longing and family warmth. Making photos on OnlyFans and sells them for money so she can buy things on her own without letting her parents know what she is doing.
 
-The family is collapsing on its own. I didn't need to do anything. Just watch.
+The family is separated on its own. I didn't need to do anything. Just watch.
 
 Emilia Peterson
 23 years old
 Height 1.92
 Cashier
 Law graduate
-Lives alone in a small apartment she bought with her own savings. Cheap locks. Thin walls. No alarms. No one is checking on her.
-She loves going out with her friends. Late nights. Loud bars. Walking home alone while laughing at nothing. Too busy living to notice the same figure following her across the street, behind the cars, at the corners.
-
-She made it easy.
-She separated herself from them.
-She made herself visible.
-She made herself mine to observe and track.
-
-I stalked her the night she moved out. That was the moment it became clear she would have no one to protect her. No police ties. No military bloodlines. No one is trained to think like I do.
+Lives alone in a small apartment she bought with her own savings. She recently broke up with her boyfriend for cheating on her.
+She loves going out with her friends. Late nights. Loud bars. 
+Deep down, she seeks a father's warmth; she has lots of "Daddy Issues" that modern science calls, and with that, she longs for a father-figure (Which was me).
 
 The cracks in her family opened the door.
-I only stepped inside.
+It's easy to track and stalk.
+She separated from her family.
+She made herself visible.
+She made herself the target.
 
-}
+She is the one, the one who is gonna prove my point to the whole MRIS workers and the owner of it, to give them a sign that they should've listened to my words.
+
                 `
             },
             {
                 id: 2,
-                title: "Recovered Classified Document Of The Incident 922",
-                type: "rvd",
+                title: "Capturing Emilia (The New Test Subject.)",
+                type: "dco",
                 images: [
-                    "Inc_1",
-                    "Inc_2",
-                    "Inc_3",
-                    "Inc_4"
+                
+        "Emilia_Peterson"
+
                 ],
-                content: `Broken File Details :::
+                content: `Details:
 
-RECOVERED ARCHIVE — INCIDENT 922
-Torn Document Restoration – Partial Reconstruction
 
-LOCATION: LAB SECTOR C – BIOLOGICAL THERAPEUTICS CHAMBER
-EXPERIMENTAL MATERIALS: MSVGS, PTDS, TREX, QRTS, GH, LH, FSH, ADH, TSH
-SUBJECT CLASSIFICATION: Human volunteers 001–017
-FINAL STATUS: Catastrophic morphological cascade
+For forty-six days, the "Coffee Shop" construct provided optimal cover. The routine of a 7:45 AM purchase, the repeated, shallow exchanges of currency and pleasantries, established a baseline of normalcy. The "Flirtation Protocol" was executed with precision: sustained eye contact lasting 2 seconds beyond social comfort, calculated compliments regarding her hair, and a feigned, clumsy nervousness when handing over payment. It was a low-effort, high-yield investment.
 
-HOUR‑BY‑HOUR PRE‑BREACH LOG
+She responded to the simulation of romance with a predictable, almost pathetic, eagerness. Emilia's life appeared to be one of profound emotional scarcity. She was a shy, somewhat lonely romantic was a key fashioned specifically for a very simple lock. She spoke of never having felt "seen" before. This was correct. She was only being observed. I know that she is going through hard times, not having any father's attention. I was older than her by a decent age, and that made me even more attractive in her eyes.
 
-[09:47] – Initial instability.
+The "Cinema Date" was the chosen catalyst. The location, The Orion Twinplex, was selected for its distance from her known social circles and its subsequent route past the state forest access road. The film was a trivial romantic comedy. She consumed the narrative of fabricated emotion with the same credulity with which she consumed my persona. Her emotional state was elevated; she was tactile, laughing. Ideal conditions for the sharp, subsequent drop.
 
-Hormone vials containing MSVGS and PTDS rupture spontaneously.
+The drive was framed as a desire for "quiet." A cliché, but effective. She interpreted the cessation of the vehicle at the forest's edge as a prelude to physical intimacy. Her compliance was total. She leaned into my personal space, her eyes closed, a slight smile on her face, the picture of surrender. It simplified the procedure immensely.
 
-Fluids spread across the floor and cling to surfaces with abnormal viscosity.
+As I closed the distance, the feigned kiss provided the necessary cover. The right hand cradled the back of her neck, a gesture she would misinterpret as tenderness. The left, already armed with the syringe (Midazolam, 5mg), delivered the payload to the exposed carotid triangle. A brief, sharp inhalation was the only sign of disruption. Then, the system shuts down. Rapid. Clean.
 
-Subjects report throbbing beneath their skin, especially along the spine and jaw.
+Transport to the prepared lab, which I prepared before in the vast forest, built it above a WWII abandoned bunker, and took it as my personal lab. The transition from the "Coffee Shop Cashier" to "HT_05" is complete.
 
-[09:52] – Rapid endocrine overload.
+The preliminary physical is scheduled for 0400. I am curious to see how her biochemistry will react to the first series of stimuli. The emotional vulnerability she displayed in the vehicle suggests a limbic system ripe for mapping.
 
-Mixtures of TREX and QRTS begin reacting with stored GH/LH/FSH.
+The world will report Emilia Peterson as missing. They will look for a runaway, a victim of random crime. And I doubt that, because her family cares less, and I like it.
 
-Subjects' pupils dilate fully.
+The experiment begins now. And the MRIS will know what I meant.
 
-Musculature begins twitching, expanding unevenly beneath the dermis.
-
-Several subjects begin screaming that their bones "feel soft."
-
-[09:58] – Morphic distortion begins.
-
-Skin begins forming folds, protrusions, and fluid‑filled sacs.
-
-One subject's arm elongates abruptly, ligaments stretching far beyond natural limits before collapsing into a limp, boneless mass.
-
-All subjects lose the ability to articulate proper speech; sounds become wet, labored, and strained.
-
-[10:03] – Containment fails.
-
-A subject undergoing extreme reaction to ADH collapses, body swelling with retained fluid.
-
-Skin begins splitting in long, shallow tears — not deep, but numerous.
-
-A wave of hormonal vapor rises from their bodies, triggering mass instability among remaining subjects.
-
-[10:11] – Psychological effects on personnel.
-
-Personnel exposed to the hormonal vapors report:
-
-severe disorientation
-
-metallic taste
-
-auditory distortions
-
-Two guards panic after witnessing a subject's facial structure melt downward as cartilage loses rigidity.
-
-[10:19] – SUBs begin uncontrolled movements.
-(Note: SUBs = Subjects Under Biological‑Shift)
-
-Movements appear clumsy, directionless, driven by reflex rather than intent.
-
-Limbs flail without coordination; some SUBs drag themselves using whatever remains functional.
-
-No indications of awareness or recognition.
-
-One SUB repeatedly slams its head against the wall until structural deformation of its skull prevents further motion.
-
-[10:34] – Breach.
-
-A cluster of SUBs collapses against the containment doors. The accumulated weight and constant convulsions weaken the lock.
-
-Door gives way.
-
-Personnel attempting evacuation encounter SUBs in corridors.
-
-No attack behavior — but any physical contact results in severe endocrine contamination, causing rapid tissue swelling and loss of motor control.
-
-[10:47] – Log corrupted.
-
-Pages waterlogged with unknown fluid.
-
-Handwritten note partially restored:
-
-"They're not attacking... they're just moving and falling and breaking themselves. But if they touch you, you start changing too. It's like drowning inside your own biology."
-
-DAY 7 – POST‑BREACH ANALYSIS
-
-Tissue samples from fallen SUBs show layered cellular identity, as if multiple hormone profiles fused into one organism.
-
-Muscles contain patches of rigid, bone‑like fibers intertwined with soft liquefied tissue.
-
-Some SUB remains still twitch, even without central nervous systems intact.
-
-Personnel exposed to even trace hormone residue exhibit:
-
-uncontrolled swelling
-
-endocrine storms
-
-rapid exhaustion
-
-persistent low‑frequency tremors
-
-No survivors from direct contact.
-
-DAY 15 – RECOVERED INTERNAL MEMO
-
-"None of them were conscious. This wasn't aggression. It was collapse. Their bodies couldn't understand themselves anymore.
-
-They weren't attacking us — they were reaching out because they couldn't stand up."
-
-DAY 30 – FINAL FINDINGS
-
-SUB morphology: unstable, involuntary, catastrophic
-
-Hormonal mixtures: contamination between MSVGS / PTDS / TREX / QRTS correlated with organ liquefaction and structural collapse
-
-Survivor count: 0
-
-Remaining SUB forms: inert but still biologically active
-
-Risk level: EXTREME — even dried residue can trigger transformation
-
-Recovered Last Note (Severely Damaged)
-
-"I keep hearing the wet dragging sound in my dreams.
-They weren't monsters.
-They were people whose bodies betrayed them.
-We did this to them."
                 `
             },
             {
                 id: 3,
-                title: "New Document",
-                type: "doc",
+                title: "Personal Note.",
+                type: "dco",
                 images: [
                    
                 ],
                 content: `
+
+People always talk about destiny as if it’s some shining path.
+Mine was carved into my face.
+
+From the time I was young, I saw how women reacted to me, how their eyes lingered a little too long, how their voices softened, how their guard lowered without a single word from my mouth. They saw strength. They saw warmth. They saw a man worth trusting. The tragic comedy of it all is that none of that was ever real. But appearances, they do half the work for you.
+
+My features were a kind of passport, an all‑access pass into the softest parts of people’s lives. Women especially drifted toward me with that mixture of interest and comfort, as if masculinity wrapped in a calm smile guaranteed safety. They found excuses to talk. They opened up easily. They projected kindness onto me simply because the shape of my face suggested it.
+
+And the world followed suit. Men welcomed me. Strangers chatted with me as if I had earned their confidence. Neighbors waved first. I blended in effortlessly, slipping into crowds like someone who belonged everywhere. No suspicion. No hesitation. No glimpses of the shadow underneath. Then I noticed that I'm good at it, and everyone thinks I'm normal. Some people fake some of the human interactions, but I fake them all, and I fake them so well that no one doubts.
+
+It is extraordinary how much evil can hide behind a pleasant expression. I became something people trusted without question. A friendly man. A likable presence. A harmless figure moving through their days. They never imagined the calculations behind my eyes, the quiet thrill in knowing how deeply they misunderstood me.
+
+They will call me a monster when this all comes to light.
+But I have always thought of myself more as a scientist who wants to prove his point to the M.R.I.S.
+
+My curiosity does not resemble what normal people feel. It is sharper, colder, stripped of compassion. I study human weakness the way others examine chemical reactions, methodically, clinically. Their emotions, their hopes, their blind trust, these things interest me the same way an unusual specimen might interest a researcher.
+
+The women who smile at me, who laugh a little too eagerly at harmless jokes, who drift closer because they sense strength and safety, they have no idea what stands in front of them. They see a man they could trust. A man they could confide in. A man who seems incapable of darkness.
+
+They don’t see the truth. They never do.
+
+And that is why they will be horrified when everything finally collapses, when the mask falls away and the world sees the truth underneath the symmetry. It won’t be the revelations that break them. It will be the realization that someone they welcomed, someone they admired, someone they trusted, was studying them the entire time with eyes that felt nothing at all.
 
 
                 `
@@ -2552,7 +2456,7 @@ We did this to them."
             html += '<div class="section-header">MRIS TERMINAL SYSTEM</div>';
             html += '<div class="text-viewer">';
             html += 'DEVICE: MRIS_SQS_DEVICE_091\n';
-            html += 'ID_NAME: Morphic Resonance Integration Studies\n';
+            html += 'ID_NAME: user_972_00192348093458\n';
             html += '</div>';
             html += '<div style="text-align: center; margin-top: 20px;">';
             html += '<button class="button" onclick="redirectToMRIS()" style="padding: 8px 16px; font-size: 12px;">OPEN MRIS SYSTEM</button>';
