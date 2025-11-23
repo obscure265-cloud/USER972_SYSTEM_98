@@ -2495,74 +2495,84 @@ Connection established: MRIS_SERVER_01
 Authentication: User_972
 Access Level: ADMIN
 
+C:\\> create_file --(query_known_creaturez)
+query_known_creaturez Folder Created Successfully.
+
 C:\\> upload --files "C:\\Documents\\*.*" --target "MRIS_SYSTEM"
 Scanning directory: C:\\Documents\\
 
 Found files:
 - INITIAL_TRANSMISSION_LOG_19.doc
-- EQUIPMENT_MALFUNCTION_SEQUENCE_DAY_1_TO_30.doc
-- PERSONNEL_LOG_EXCERPT_DISAPPEARANCES.doc
+- EXPERIMNTAL_LOGS.doc
+- FORMULA.doc
 - Anatoly_Personal_Notes.pdf
-- Null_pictures.zip
+- pictures.zip
 
 C:\\> upload --file "INITIAL_TRANSMISSION_LOG_19.doc" --target "MRIS_SYSTEM"
 Uploading: INITIAL_TRANSMISSION_LOG_19.doc
 Progress: [████████████████████] 100%
 Status: SUCCESS
-File uploaded to: MRIS://ARCHIVES/INCIDENT_REPORTS/
+File uploaded to: MRIS://HT_05/
 
-C:\\> upload --file "EQUIPMENT_MALFUNCTION_SEQUENCE_DAY_1_TO_30.doc" --target "MRIS_SYSTEM"
-Uploading: EQUIPMENT_MALFUNCTION_SEQUENCE_DAY_1_TO_30.doc
+C:\\> upload --file "EXPERIMNTAL_LOGS.doc" --target "MRIS_SYSTEM"
+Uploading: EXPERIMNTAL_LOGS.doc
 Progress: [████████████████████] 100%
 Status: SUCCESS
-File uploaded to: MRIS://ARCHIVES/TECHNICAL_LOGS/
+File uploaded to: MRIS://HT_05/
 
-C:\\> upload --file "PERSONNEL_LOG_EXCERPT_DISAPPEARANCES.doc" --target "MRIS_SYSTEM"
-Uploading: PERSONNEL_LOG_EXCERPT_DISAPPEARANCES.doc
+C:\\> upload --file "FORMULA.doc" --target "MRIS_SYSTEM"
+Uploading: FORMULA.doc
 Progress: [████████████████████] 100%
 Status: SUCCESS
-File uploaded to: MRIS://ARCHIVES/PERSONNEL_RECORDS/
+File uploaded to: MRIS://HT_05/
 
 C:\\> upload --file "Anatoly_Personal_Notes.pdf" --target "MRIS_SYSTEM"
 Uploading: Anatoly_Personal_Notes.pdf
 Progress: [████████████████████] 100%
 Status: SUCCESS
-File uploaded to: MRIS://PERSONAL/ANATOLY/
+File uploaded to: MRIS://HT_05/
 
-C:\\> upload --file "Null_pictures.zip" --target "MRIS_SYSTEM"
-Uploading: Null_pictures.zip
+C:\\> upload --file "pictures.zip" --target "MRIS_SYSTEM"
+Uploading: pictures.zip
 Progress: [████████████████████] 100%
 Status: SUCCESS
-File uploaded to: MRIS://MEDIA/IMAGES/
+File uploaded to: MRIS://HT_05/
 
 C:\\> mris_sync --verify
 Verifying upload integrity...
 Checking: INITIAL_TRANSMISSION_LOG_19.doc... OK
-Checking: EQUIPMENT_MALFUNCTION_SEQUENCE_DAY_1_TO_30.doc... OK
-Checking: PERSONNEL_LOG_EXCERPT_DISAPPEARANCES.doc... OK
+Checking: EXPERIMNTAL_LOGS.doc... OK
+Checking: FORMULA.doc... OK
 Checking: Anatoly_Personal_Notes.pdf... OK
-Checking: Null_pictures.zip... OK
+Checking: pictures.zip... OK
 
 All files successfully uploaded to MRIS Terminal System.
 Upload Summary:
 - 3 document files
-- 1 personal notes file
-- 1 image archive
-Total size: 47.3 MB
-Transfer rate: 2.1 MB/s
+- 1 pdf file
+- 1 rar archive
+Total size: 39 MB
+Transfer rate: 0.02 MB/s
 
-C:\\> mris_encrypt --level MAXIMUM --target "MRIS://ARCHIVES/"
+C:\\> mris_encrypt --level MAXIMUM --target "{M.R.I.S}>///query_known_creaturez --category="
 Encrypting archive files with AES-256...
 Progress: [████████████████████] 100%
 Encryption complete. All files secured.
 
-C:\\> mris_log --entry "User_972 uploaded files to MRIS system"
-Log entry created: 2024-01-15 14:32:17
-Entry: User_972 successfully uploaded all documents and Anatoly's Personal Notes to MRIS Terminal System.
+C:\\> mris_log --entry "#HT05-2017 | Compiled by: User_972 (Uploaded)."
+Log entry created: 2025-06-15 00:32:17
+Successfully uploaded all documents and Anatoly's Personal Notes to MRIS Terminal System.
 
 C:\\> disconnect
 Disconnecting from MRIS_SERVER_0972...
 Connection terminated.
+
+C:\\> --delete /USI918834_oU9M9l9i9JH24.cmd/
+Successfully Deleted USI918834_oU9M9l9i9JH24.cmd.
+
+C:\\> --shutdown
+Shutting MRIS TERMINAL...
+Successfully Shutted MRIS TERMINAL.
 
 C:\\> <span class="cmd-prompt">_<span class="cmd-typing"></span></span>
             `;
