@@ -59,48 +59,71 @@
             text-align: center;
         }
 
-        .boot-logo-sub {
-            color: var(--win98-white);
-            font-size: 14px;
-            margin-bottom: 60px;
-            letter-spacing: 2px;
-        }
+     .login-button {
+    background: linear-gradient(180deg, var(--win98-light-gray), var(--win98-gray));
+    border: 2px solid;
+    border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
+    padding: 8px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    color: black;
+    margin-top: 20px;
+}
 
-        .boot-progress-container {
-            width: 300px;
-            border: 2px solid;
-            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
-            background-color: var(--win98-gray);
-            padding: 3px;
-            margin-bottom: 15px;
-        }
+.login-button:active {
+    border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+}
 
-        .boot-progress-bar {
-            height: 16px;
-            width: 0%;
-            background: linear-gradient(90deg, #000080, #1084d7);
-            border: 1px solid;
-            border-color: var(--win98-light-gray) var(--win98-shadow) var(--win98-shadow) var(--win98-light-gray);
-            transition: width 0.1s linear;
-        }
+.login-button:hover {
+    background: linear-gradient(180deg, var(--win98-white), var(--win98-light-gray));
+}
 
-        .boot-progress-text {
-            color: var(--win98-white);
-            text-align: center;
-            margin-top: 20px;
-            font-size: 11px;
-            min-height: 14px;
-        }
+      #desktop {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #000080 0%, #1084d7 100%);
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
 
-        /* Windows 98 Desktop */
-        #desktop {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #000080 0%, #1084d7 100%);
-            position: relative;
-            overflow: hidden;
-            display: none;
-        }
+/* Desktop mode icon layout - Same as mobile */
+@media (min-width: 769px) {
+    #desktop {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 15px;
+        padding: 20px;
+        align-content: start;
+        justify-items: center;
+        overflow-y: auto;
+    }
+    
+    .desktop-icon {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        width: 90px;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .desktop-icon-image {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 6px;
+    }
+    
+    .desktop-icon-label {
+        font-size: 11px;
+        max-width: 100%;
+        text-align: center;
+    }
+}
 
         .taskbar {
             position: fixed;
@@ -1124,6 +1147,422 @@
     height: 100%;
     object-fit: contain;
 }
+
+    /* =============================== */
+        /* MOBILE RESPONSIVENESS */
+        /* =============================== */
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            /* Center windows on mobile */
+            .window {
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                min-width: 90vw !important;
+                max-width: 95vw !important;
+                max-height: 80vh !important;
+            }
+            
+            /* Mobile-friendly start menu */
+            .start-menu {
+                width: 90vw !important;
+                max-height: 70vh !important;
+                overflow-y: auto;
+                bottom: 28px;
+                left: 5vw !important;
+            }
+            
+            .start-menu-content {
+                max-height: 50vh;
+                overflow-y: auto;
+            }
+            
+            /* Mobile-friendly taskbar */
+            .taskbar {
+                height: 36px;
+            }
+            
+            .start-button {
+                padding: 4px 10px;
+                font-size: 12px;
+            }
+            
+            .taskbar-clock {
+                min-width: 100px;
+                font-size: 10px;
+            }
+            
+          /* Mobile-friendly desktop icons - RESPONSIVE GRID */
+#desktop {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    align-content: start;
+    justify-items: center;
+    height: calc(100% - 36px);
+    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.desktop-icon {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100%;
+    margin: 0;
+    display: flex; /* ADD THIS LINE */
+    flex-direction: column; /* ADD THIS LINE */
+    align-items: center; /* ADD THIS LINE */
+    justify-content: center; /* ADD THIS LINE */
+}
+            
+            .desktop-icon-image {
+                width: 48px;
+                height: 48px;
+                margin: 0 auto 4px;
+            }
+            
+            .desktop-icon-label {
+                font-size: 9px;
+                max-width: 100%;
+            }
+            
+            /* Mobile-friendly image viewer */
+            .image-viewer-window {
+                width: 95vw !important;
+                height: 80vh !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+            }
+            
+            .image-display {
+                padding: 5px;
+            }
+            
+            .real-image {
+                max-width: 100% !important;
+                max-height: 60vh !important;
+                object-fit: contain;
+            }
+            
+            /* Mobile-friendly command prompt */
+            .cmd-window {
+                width: 95vw !important;
+                height: 70vh !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+            }
+            
+            /* Mobile-friendly text document */
+            #window-textdoc {
+                width: 95vw !important;
+                height: 80vh !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+            }
+            
+            .editable-text {
+                height: 60vh;
+                font-size: 12px;
+            }
+            
+            /* Mobile-friendly documents window */
+            #window-documents {
+                width: 95vw !important;
+                height: 80vh !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+            }
+            
+            /* Mobile-friendly document detail view */
+            .documents-detail-panel {
+                flex-direction: column;
+                padding: 8px;
+                overflow-y: auto;
+            }
+            
+            .documents-detail-images {
+                grid-template-columns: repeat(3, 1fr) !important;
+                flex: 0 0 auto;
+                margin-bottom: 10px;
+            }
+            
+            .documents-detail-image {
+                width: 80px;
+                height: 80px;
+                font-size: 8px;
+            }
+            
+            .documents-detail-content {
+                flex: 1;
+                overflow-y: auto;
+            }
+            
+            .documents-detail-description {
+                max-height: 40vh;
+                font-size: 11px;
+                line-height: 1.4;
+            }
+            
+            /* Mobile-friendly scrollbars */
+            .window-content::-webkit-scrollbar {
+                width: 12px;
+            }
+            
+            .text-viewer::-webkit-scrollbar {
+                width: 12px;
+            }
+            
+            .start-menu-content::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            .documents-detail-content::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            /* Mobile-friendly error dialog */
+            .error-dialog {
+                width: 90vw;
+            }
+            
+            /* Mobile-friendly audio control panel */
+            .audio-control-panel {
+                width: 90vw;
+                bottom: 40px;
+                left: 5vw;
+            }
+            
+            /* Mobile-friendly context menu */
+            .context-menu {
+                min-width: 180px;
+                font-size: 12px;
+            }
+            
+            .context-menu-item {
+                padding: 6px 10px;
+            }
+            
+            /* Mobile-friendly zoom controls */
+            .zoom-controls {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .zoom-button {
+                width: 24px;
+                height: 24px;
+                font-size: 14px;
+            }
+            
+            /* Touch improvements */
+            .desktop-icon, .file-item, .start-menu-item, 
+            .title-bar-button, .button, .audio-button,
+            .context-menu-item, .zoom-button {
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+                tap-highlight-color: rgba(0,0,0,0.1);
+            }
+            
+            /* Ensure all interactive elements are properly sized for touch */
+            .title-bar-button {
+                min-width: 24px;
+                min-height: 20px;
+            }
+            
+            .button, .audio-button {
+                min-height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        
+        /* Landscape mode optimization */
+       /* Landscape mode optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    #desktop {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+        gap: 8px;
+        padding: 8px;
+        justify-items: center;
+    }
+    
+    .desktop-icon-image {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .desktop-icon-label {
+        font-size: 8px;
+    }
+    
+    .window {
+        max-height: 90vh !important;
+    }
+    
+    .start-menu {
+        max-height: 80vh !important;
+    }
+}
+        
+        /* Extra small devices */
+       /* Extra small devices */
+@media (max-width: 480px) {
+    .window {
+        min-width: 98vw !important;
+    }
+    
+    .start-menu {
+        width: 95vw !important;
+        left: 2.5vw !important;
+    }
+    
+    #desktop {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+        gap: 8px;
+        justify-items: center;
+    }
+            
+            .desktop-icon-image {
+                width: 42px;
+                height: 42px;
+            }
+            
+            .desktop-icon-label {
+                font-size: 8px;
+            }
+            
+            .documents-detail-images {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            
+            .documents-detail-image {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .taskbar-clock {
+                min-width: 90px;
+                font-size: 9px;
+            }
+            
+            .audio-control-panel {
+                width: 95vw;
+                left: 2.5vw;
+            }
+        }
+        
+        /* Very small devices */
+        @media (max-width: 360px) {
+            #desktop {
+                grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+                gap: 6px;
+            }
+            
+            .desktop-icon-image {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .desktop-icon-label {
+                font-size: 7px;
+            }
+        }
+        
+        /* Mobile touch improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .desktop-icon:hover .desktop-icon-label {
+                background-color: transparent;
+                color: white;
+            }
+            
+            .file-item:hover {
+                background-color: transparent;
+                color: inherit;
+            }
+            
+            .start-menu-item:hover {
+                background-color: transparent;
+                color: inherit;
+            }
+            
+            .context-menu-item:hover {
+                background-color: transparent;
+                color: inherit;
+            }
+            
+            /* Increase touch target sizes */
+            .desktop-icon {
+                padding: 8px 5px;
+            }
+            
+            .file-item {
+                padding: 10px 6px;
+                min-height: 24px;
+            }
+            
+            .start-menu-item {
+                padding: 10px;
+                min-height: 32px;
+            }
+            
+            .title-bar-button {
+                width: 26px;
+                height: 22px;
+            }
+            
+            .button, .audio-button {
+                padding: 8px 14px;
+                min-height: 36px;
+            }
+            
+            /* Active states for touch feedback */
+            .desktop-icon:active .desktop-icon-label {
+                background-color: var(--win98-blue);
+                color: white;
+            }
+            
+            .file-item:active {
+                background-color: var(--win98-blue);
+                color: white;
+            }
+            
+            .start-menu-item:active {
+                background-color: var(--win98-blue);
+                color: white;
+            }
+            
+            .context-menu-item:active {
+                background-color: var(--win98-blue);
+                color: white;
+            }
+            
+            .title-bar-button:active {
+                border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+            }
+            
+            .button:active, .audio-button:active {
+                border-color: var(--win98-shadow) var(--win98-light-gray) var(--win98-light-gray) var(--win98-shadow);
+            }
+        }
+        
+        /* Prevent text selection on interactive elements */
+        .desktop-icon, .file-item, .start-menu-item, 
+        .title-bar-button, .button, .audio-button,
+        .context-menu-item, .zoom-button {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -1162,17 +1601,6 @@
         <source src="https://files.catbox.moe/2lgnrz.mp3" type="audio/wav">
     </audio>
 
-    <!-- Boot splash screen -->
-    <div id="boot-splash">
-        <div class="boot-logo">
-            SYSTEM_98
-        </div>
-        <div class="boot-logo-sub">Loading system...</div>
-        <div class="boot-progress-container">
-            <div class="boot-progress-bar" id="boot-progress-bar"></div>
-        </div>
-        <div class="boot-progress-text" id="boot-progress-text">loading system</div>
-    </div>
     <!-- Desktop -->
     <div id="desktop">
         <!-- Desktop Icons -->
@@ -1454,7 +1882,7 @@
         <div class="start-menu" id="start-menu">
             <div class="start-menu-header">
                 <div class="user-photo" id="user-photo">
-                    <img src="https://files.catbox.moe/go9bjl.png" alt="User Photo" class="user-photo-img">
+                    <img src="https://files.catbox.moe/4nnqjn.jpg" alt="User Photo" class="user-photo-img">
                 </div>
                 <div class="user-info">
                     <div class="user-name">User_972</div>
@@ -1601,6 +2029,7 @@ function startBackgroundAudio() {
             audioPrompt.innerHTML = `
                 <div style="background: #c0c0c0; padding: 20px; border: 2px solid #dfdfdf; color: black;">
                     <div style="margin-bottom: 10px;">System_98</div>
+                    <div style="margin-bottom: 14px; font-size: 8px;">The site still on BETA mode and you may encounter some errors.</div>
                     <div style="font-size: 12px; margin-bottom: 15px;">Welcome, User_972</div>
                     <button style="padding: 5px 15px; background: #c0c0c0; border: 2px outset; cursor: pointer;">Login</button>
                 </div>
@@ -1817,9 +2246,8 @@ document.addEventListener('click', function(event) {
             "Renata_Peterson": "https://files.catbox.moe/dtfq2s.png",
             "Maria_Peterson": "https://files.catbox.moe/gmrpow.png",
             "Sofía_Peterson": "https://files.catbox.moe/notuyx.png",
-            "Emilia_Peterson_TARGET": "https://files.catbox.moe/phhdp1.png",
+            "Emilia_Peterson_(TARGET)": "https://files.catbox.moe/phhdp1.png",
             "Emilia_Peterson": "https://files.catbox.moe/ud459r.jpeg"
-
         };
 
         // Function to get image URL from placeholder
@@ -1840,7 +2268,7 @@ document.addEventListener('click', function(event) {
                     "Renata_Peterson",
                     "Maria_Peterson",
                     "Sofía_Peterson",
-                    "Emilia_Peterson_TARGET"
+                    "Emilia_Peterson_(TARGET)"
                 ],
                 content: `The Family Members Of Emilia Peterson (The Primary Target)
 
@@ -1905,7 +2333,7 @@ She is the one, the one who is gonna prove my point to the whole MRIS workers an
             },
             {
                 id: 2,
-                title: "Capturing Emilia (The New Test Subject)",
+                title: "Capturing Emilia (The New Test Subject.)",
                 type: "dco",
                 images: [
                 
@@ -1915,17 +2343,9 @@ She is the one, the one who is gonna prove my point to the whole MRIS workers an
                 content: `Details:
 
 
-For over three months now, the Coffee Shop construct has remained an ideal habitat, predictable, quiet, and easily controlled. What began as a simple pattern of morning visits has evolved into something even more structurally advantageous. Emilia is no longer just the barista stationed behind the counter. She is now my girlfriend, a title she clings to with the trembling devotion of someone who believes she has finally been chosen. I continue to visit her little shop every day, the way a researcher returns to observe an experiment that consistently yields useful results.
+For forty-six days, the "Coffee Shop" construct provided optimal cover. The routine of a 7:45 AM purchase, the repeated, shallow exchanges of currency and pleasantries, established a baseline of normalcy. The "Flirtation Protocol" was executed with precision: sustained eye contact lasting 2 seconds beyond social comfort, calculated compliments regarding her hair, and a feigned, clumsy nervousness when handing over payment. It was a low-effort, high-yield investment.
 
-The Flirtation Protocol, executed with initial precision, extended eye contact, soft spoken compliments, and a carefully measured display of awkward vulnerability, proved remarkably effective. She accepted the manufactured affection exactly as anticipated. What started as a low effort strategy has transformed into a self-reinforcing loop: she offers devotion, and I offer the illusion of emotional depth.
-
-Her eagerness is almost automatic. Emilia’s emotional deprivation runs deep; she is someone who has rarely encountered genuine warmth, so even the artificial version feels to her like a revelation. She once told me that being with me made her feel chosen, seen, and held. She is not being held, of course. She is being handled. Observed. Categorized. But she does not need that distinction.
-
-Her troubled past, the absence of a father’s presence, created a void I could predict with near-perfect accuracy. My age advantage only tightened her attachment; she mistakes it for stability, for guidance, for a kind of authority she has unconsciously searched for her entire life.
-
-And so she remains the ideal participant in this ongoing study. After months of observation, the data only becomes more refined.
-
-If you want the tone darker, more clinical, or more deranged, I can adjust it.
+She responded to the simulation of romance with a predictable, almost pathetic, eagerness. Emilia's life appeared to be one of profound emotional scarcity. She was a shy, somewhat lonely romantic was a key fashioned specifically for a very simple lock. She spoke of never having felt "seen" before. This was correct. She was only being observed. I know that she is going through hard times, not having any father's attention. I was older than her by a decent age, and that made me even more attractive in her eyes.
 
 The "Cinema Date" was the chosen catalyst. The location, The Orion Twinplex, was selected for its distance from her known social circles and its subsequent route past the state forest access road. The film was a trivial romantic comedy. She consumed the narrative of fabricated emotion with the same credulity with which she consumed my persona. Her emotional state was elevated; she was tactile, laughing. Ideal conditions for the sharp, subsequent drop.
 
@@ -1959,7 +2379,7 @@ From the time I was young, I saw how women reacted to me, how their eyes lingere
 
 My features were a kind of passport, an all‑access pass into the softest parts of people’s lives. Women especially drifted toward me with that mixture of interest and comfort, as if masculinity wrapped in a calm smile guaranteed safety. They found excuses to talk. They opened up easily. They projected kindness onto me simply because the shape of my face suggested it.
 
-And the world followed suit. Men welcomed me. Strangers chatted with me as if I had earned their confidence. Neighbors waved first. I blended in effortlessly, slipping into crowds like someone who belonged everywhere. No suspicion. No hesitation. No glimpses of the shadow underneath. Then I noticed that I'm good at it, and everyone thinks I'm normal, but deep down, I'm a fake person who is good at faking any human interaction.
+And the world followed suit. Men welcomed me. Strangers chatted with me as if I had earned their confidence. Neighbors waved first. I blended in effortlessly, slipping into crowds like someone who belonged everywhere. No suspicion. No hesitation. No glimpses of the shadow underneath. Then I noticed that I'm good at it, and everyone thinks I'm normal. Some people fake some of the human interactions, but I fake them all, and I fake them so well that no one doubts.
 
 It is extraordinary how much evil can hide behind a pleasant expression. I became something people trusted without question. A friendly man. A likable presence. A harmless figure moving through their days. They never imagined the calculations behind my eyes, the quiet thrill in knowing how deeply they misunderstood me.
 
@@ -1999,58 +2419,23 @@ And that is why they will be horrified when everything finally collapses, when t
         // BOOT & INITIALIZATION
         // ===============================
 
-        function startBoot() {
-            const splash = document.getElementById('boot-splash');
-            const progressBar = document.getElementById('boot-progress-bar');
-            const progressText = document.getElementById('boot-progress-text');
-            
-            let progress = 0;
-            const messages = [
-                'Loading system files...',
-                'Loading kernel modules...',
-                'Initializing devices...',
-                'Loading system drivers...',
-                'Mounting filesystem...',
-                'Checking disk integrity...',
-                'Loading archives...',
-                'Finalizing boot sequence...'
-            ];
-            
-            const interval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = progress + '%';
-                const messageIndex = Math.floor((progress / 100) * (messages.length - 1));
-                progressText.textContent = messages[messageIndex];
-                
-                if (progress === 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        splash.style.display = 'none';
-                        document.getElementById('desktop').style.display = 'block';
-                        initializeDesktop();
-                    }, 1000);
-                }
-            }, 400);
-        }
+   function startBoot() {
+    // Skip the boot splash screen entirely
+    const splash = document.getElementById('boot-splash');
+    splash.style.display = 'none';
+    document.getElementById('desktop').style.display = 'block';
+    initializeDesktop();
+    
+    // Start background audio
+    startBackgroundAudio();
+}
 
-        function initializeDesktop() {
-            populateDocumentsGrid();
-            populateFileExplorer();
-            setupWindows();
-            initializeClock();
-            
-            // Close start menu when clicking outside
-            document.addEventListener('click', function(event) {
-                const startMenu = document.getElementById('start-menu');
-                const startButton = document.getElementById('start-button');
-                
-                if (!startMenu.contains(event.target) && !startButton.contains(event.target)) {
-                    startMenu.style.display = 'none';
-                }
-            });
-        }
+function loginToSystem() {
+    // This function is no longer needed since we skip the login screen
+    // But we'll keep it for compatibility with the HTML onclick
+    startBoot();
+    playClickSound();
+}
 
         function populateDocumentsGrid() {
             const grid = document.getElementById('documents-folder-grid');
@@ -2116,8 +2501,8 @@ And that is why they will be horrified when everything finally collapses, when t
                 { name: 'record_18.wav', status: 'DELETED' },
                 { name: 'record_19.wav', status: 'DELETED' },
                 { name: 'record_20.wav', status: 'DELETED' },
-                { name: 'mrisRecord.mp4', status: 'DELETED' },
-                { name: 'Document_zelda.txt', status: 'DELETED' },
+                { name: 'record_21.wav', status: 'DELETED' },
+                { name: 'Document_HT_05.txt', status: 'DELETED' },
                 { name: 'Formula.dco', status: 'DELETED' },
                 { name: 'Img.jpg', status: 'DELETED' },
                 { name: 'Cmd.vfl', status: 'DELETED' }
@@ -2497,9 +2882,6 @@ Connection established: MRIS_SERVER_01
 Authentication: User_972
 Access Level: ADMIN
 
-C:\\> create_file --(query_known_creaturez)
-query_known_creaturez Folder Created Successfully.
-
 C:\\> upload --files "C:\\Documents\\*.*" --target "MRIS_SYSTEM"
 Scanning directory: C:\\Documents\\
 
@@ -2508,7 +2890,7 @@ Found files:
 - EXPERIMNTAL_LOGS.doc
 - FORMULA.doc
 - Anatoly_Personal_Notes.pdf
-- pictures.zip
+- Null_pictures.zip
 
 C:\\> upload --file "INITIAL_TRANSMISSION_LOG_19.doc" --target "MRIS_SYSTEM"
 Uploading: INITIAL_TRANSMISSION_LOG_19.doc
@@ -2535,7 +2917,7 @@ Status: SUCCESS
 File uploaded to: MRIS://HT_05/
 
 C:\\> upload --file "pictures.zip" --target "MRIS_SYSTEM"
-Uploading: pictures.zip
+Uploading: Null_pictures.zip
 Progress: [████████████████████] 100%
 Status: SUCCESS
 File uploaded to: MRIS://HT_05/
@@ -2556,14 +2938,14 @@ Upload Summary:
 Total size: 39 MB
 Transfer rate: 0.02 MB/s
 
-C:\\> mris_encrypt --level MAXIMUM --target "{M.R.I.S}>///query_known_creaturez --category=(/Experimental Creations)"
+C:\\> mris_encrypt --level MAXIMUM --target "MRIS://HT_05/"
 Encrypting archive files with AES-256...
 Progress: [████████████████████] 100%
 Encryption complete. All files secured.
 
 C:\\> mris_log --entry "#HT05-2017 | Compiled by: User_972 (Uploaded)."
 Log entry created: 2025-06-15 00:32:17
-Successfully uploaded all documents and Anatoly's Personal Notes to MRIS Terminal System (FILE: Experimental Creations).
+successfully uploaded all documents and Anatoly's Personal Notes to MRIS Terminal System.
 
 C:\\> disconnect
 Disconnecting from MRIS_SERVER_0972...
@@ -2573,8 +2955,8 @@ C:\\> --delete /USI918834_oU9M9l9i9JH24.cmd/
 Successfully Deleted USI918834_oU9M9l9i9JH24.cmd.
 
 C:\\> --shutdown
-Shutting MRIS TERMINAL...
-Successfully Shutted MRIS TERMINAL.
+Shutting MRIS TERMINAL... (%100)
+Successfully Shutting MRIS TERMINAL.
 
 C:\\> <span class="cmd-prompt">_<span class="cmd-typing"></span></span>
             `;
@@ -3030,6 +3412,237 @@ function updateTextZoomInfo() {
     // Optional: You could add a zoom indicator for text if desired
     console.log('Text (zoom: ' + Math.round(textZoomLevel * 100) + '%)');
 }
+
+window.addEventListener('load', function() {
+    // Skip boot screen and go directly to desktop
+    document.getElementById('desktop').style.display = 'block';
+    initializeDesktop();
+    startBackgroundAudio();
+    
+    // Set default volumes
+    setHumVolume(3);
+    setClickVolume(100);
+});
+
+        // ===============================
+        // MOBILE-SPECIFIC FUNCTIONALITY
+        // ===============================
+        
+        // Check if device is mobile
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1) || 
+                   (window.innerWidth <= 768);
+        }
+        
+        // Mobile-optimized document detail view
+        function openDocumentDetail(index) {
+            const doc = DOCUMENTS[index];
+            const folderView = document.getElementById('documents-folder-view');
+            const detailView = document.getElementById('documents-detail-view');
+            const titleEl = document.getElementById('documents-detail-title');
+            const descriptionEl = document.getElementById('documents-detail-description');
+            const imagesContainer = document.getElementById('documents-detail-images');
+            
+            // Update detail panel
+            titleEl.textContent = doc.title;
+            descriptionEl.textContent = doc.content;
+            
+            // Clear and populate images
+            imagesContainer.innerHTML = '';
+            const imagesToShow = doc.images ? doc.images.slice(0, 10) : [];
+            
+            if (isMobileDevice()) {
+                // Mobile layout: images in a grid at the top
+                imagesToShow.forEach((img, idx) => {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'documents-detail-image';
+                    
+                    // Create image element for mobile
+                    const imgElement = document.createElement('img');
+                    imgElement.src = getImageUrl(img);
+                    imgElement.alt = img;
+                    imgElement.style.width = '100%';
+                    imgElement.style.height = '100%';
+                    imgElement.style.objectFit = 'cover';
+                    
+                    imgDiv.appendChild(imgElement);
+                    imgDiv.onclick = () => openImageInWindow(img, idx, doc.title, imagesToShow);
+                    imagesContainer.appendChild(imgDiv);
+                });
+            } else {
+                // Desktop layout: text labels only
+                imagesToShow.forEach((img, idx) => {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'documents-detail-image';
+                    imgDiv.textContent = img;
+                    imgDiv.onclick = () => openImageInWindow(img, idx, doc.title, imagesToShow);
+                    imagesContainer.appendChild(imgDiv);
+                });
+            }
+            
+            // Switch views
+            folderView.classList.remove('active');
+            detailView.classList.add('active');
+            
+            // Scroll to top on mobile
+            if (isMobileDevice()) {
+                detailView.scrollTop = 0;
+            }
+        }
+        
+        // Mobile-optimized window positioning
+        function openWindow(windowId) {
+            const window = document.getElementById(windowId);
+            if (window) {
+                window.style.display = 'block';
+                
+                // Center on mobile devices
+                if (isMobileDevice()) {
+                    window.style.top = '50%';
+                    window.style.left = '50%';
+                    window.style.transform = 'translate(-50%, -50%)';
+                }
+                
+                bringToFront(windowId);
+            }
+        }
+        
+        // Initialize mobile-specific features
+        function initializeMobileFeatures() {
+            if (isMobileDevice()) {
+                console.log("Mobile device detected - initializing mobile features");
+                
+                // Add mobile-specific event listeners for better touch handling
+                document.addEventListener('touchstart', function() {}, {passive: true});
+                
+                // Improve touch scrolling
+                document.querySelectorAll('.window-content, .text-viewer, .start-menu-content, #desktop').forEach(el => {
+                    el.style.webkitOverflowScrolling = 'touch';
+                });
+                
+                // Add touch event handlers for all interactive elements
+                document.querySelectorAll('.desktop-icon, .file-item, .start-menu-item, .title-bar-button, .button, .audio-button, .context-menu-item, .zoom-button').forEach(el => {
+                    // Remove any existing click handlers that might interfere
+                    const oldOnClick = el.onclick;
+                    
+                    // Add touch event
+                    el.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        if (oldOnClick) {
+                            oldOnClick.call(this, e);
+                        } else if (this.onclick) {
+                            this.onclick(e);
+                        }
+                        playClickSound();
+                    }, {passive: false});
+                });
+                
+                // Special handling for desktop icons
+                document.querySelectorAll('.desktop-icon').forEach(icon => {
+                    icon.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        const clickHandler = this.onclick;
+                        if (clickHandler) {
+                            clickHandler.call(this, e);
+                        }
+                        playClickSound();
+                    }, {passive: false});
+                });
+                
+                // Handle window dragging on mobile
+                document.querySelectorAll('.window').forEach(window => {
+                    const titleBar = window.querySelector('.title-bar');
+                    if (titleBar) {
+                        let startX, startY, initialX, initialY;
+                        
+                        titleBar.addEventListener('touchstart', function(e) {
+                            const touch = e.touches[0];
+                            startX = touch.clientX;
+                            startY = touch.clientY;
+                            initialX = window.offsetLeft;
+                            initialY = window.offsetTop;
+                            bringToFront(window.id);
+                        }, {passive: true});
+                        
+                        titleBar.addEventListener('touchmove', function(e) {
+                            if (startX === undefined || startY === undefined) return;
+                            
+                            const touch = e.touches[0];
+                            const deltaX = touch.clientX - startX;
+                            const deltaY = touch.clientY - startY;
+                            
+                            window.style.left = (initialX + deltaX) + 'px';
+                            window.style.top = (initialY + deltaY) + 'px';
+                        }, {passive: true});
+                        
+                        titleBar.addEventListener('touchend', function() {
+                            startX = startY = initialX = initialY = undefined;
+                        }, {passive: true});
+                    }
+                });
+            }
+        }
+        
+        // Rearrange desktop icons for mobile
+        function arrangeDesktopIconsForMobile() {
+            if (!isMobileDevice()) return;
+            
+            const desktop = document.getElementById('desktop');
+            const icons = Array.from(desktop.querySelectorAll('.desktop-icon'));
+            
+            // Clear any existing positioning
+            icons.forEach(icon => {
+                icon.style.position = 'relative';
+                icon.style.top = 'auto';
+                icon.style.left = 'auto';
+            });
+            
+            console.log("Desktop icons arranged for mobile view");
+        }
+        
+        // Update the initializeDesktop function to include mobile features
+        function initializeDesktop() {
+            populateDocumentsGrid();
+            populateFileExplorer();
+            setupWindows();
+            initializeClock();
+            initializeContextMenu();
+            
+            // Mobile-specific initialization
+            if (isMobileDevice()) {
+                initializeMobileFeatures();
+                arrangeDesktopIconsForMobile();
+            }
+            
+            // Close start menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const startMenu = document.getElementById('start-menu');
+                const startButton = document.getElementById('start-button');
+                
+                if (startMenu && startButton && !startMenu.contains(event.target) && !startButton.contains(event.target)) {
+                    startMenu.style.display = 'none';
+                }
+            });
+            
+            // Also close start menu when tapping outside on mobile
+            if (isMobileDevice()) {
+                document.addEventListener('touchend', function(event) {
+                    const startMenu = document.getElementById('start-menu');
+                    const startButton = document.getElementById('start-button');
+                    
+                    if (startMenu && startButton && !startMenu.contains(event.target) && !startButton.contains(event.target)) {
+                        startMenu.style.display = 'none';
+                    }
+                });
+            }
+        }
+        
+        // Handle window resize for responsive behavior
+        window.addEventListener('resize', function() {
+            if (isMobileDevice()) {
+                arrangeDesktopIconsForMobile();
+            }
+        });
     </script>
 </body>
 </html>
